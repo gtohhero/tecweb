@@ -9,3 +9,6 @@ finalidad : almacenar y entregar todos tus practicas y proyectos del curso.
 
 ## Materia
 ### Tecnologías Web.
+
+## Periodo
+### Primavera 2025 Licenciatura
