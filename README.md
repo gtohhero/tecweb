@@ -1,5 +1,4 @@
 # tecweb
-finalidad : almacenar y entregar todos tus practicas y proyectos del curso.
 
 ## Matricula
 ### 202368820.
@@ -11,4 +10,7 @@ finalidad : almacenar y entregar todos tus practicas y proyectos del curso.
 ### Tecnologías Web.
 
 ## Periodo
-### Primavera 2025 Licenciatura
+### Primavera 2025 Licenciatura.
+
+## Propósito del repositorio
+### Almacenar y entregar todas mis prácticas del curso
