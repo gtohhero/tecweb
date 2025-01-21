@@ -1,16 +1,16 @@
-# tecweb
+# " tecweb "
 
-## Matricula
-### 202368820.
+## __Matricula__
+### <ins>_202368820._</ins>
 
-## Nombre
-### Francisco Zatarain Amador.
+## __Nombre__
+### <ins>_Francisco Zatarain Amador._</ins>
 
-## Materia
-### Tecnologías Web.
+## __Materia__
+### <ins>_Tecnologías Web._</ins>
 
-## Periodo
-### Primavera 2025 Licenciatura.
+## __Periodo__
+### <ins>_Primavera 2025 Licenciatura._</ins>
 
-## Propósito del repositorio
-### Almacenar y entregar todas mis prácticas del curso
+## __Propósito del repositorio__
+### <ins>_Almacenar y entregar todas mis prácticas del curso._</ins>
