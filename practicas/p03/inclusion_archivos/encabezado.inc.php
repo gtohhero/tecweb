@@ -15,7 +15,7 @@
 
     <body>
         <?php
-            $variableext;
+            $variableext="Este texto proviene del archivo incluido";
             echo "<div><h1 style=\"border-width:5;border-style:double;background-color:#ffcc99;\">
             Bienvenido en el sitio $variable1 </h1>";
             echo "<h3> $variableext</h3>";
