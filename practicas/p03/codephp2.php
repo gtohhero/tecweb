@@ -23,7 +23,7 @@
             $variable2="MySQL";
         ?>
 
-        <p>Vas a descubrir <?= $variable1 ?> ←(5)</p>
+        <p>Vas a descubrir <?= $variable1 ?></p>
         
         <?php
             echo "<h2> Buenos días de $variable1 </h2>";
