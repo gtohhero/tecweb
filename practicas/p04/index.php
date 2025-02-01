@@ -29,6 +29,49 @@
         echo '<li>$_element1 es válida porque inicia con guión bajo.</li>';
         echo '<li>$house*5 es inválida porque el símbolo * no está permitido.</li>';
         echo '</ul>';
+
+        unset($_myvar, $_7var, $myvar,  $var7, $_element1);
+    ?>
+    
+    <h2>Ejercicio 2</h2>
+    <p>Proporcionar los valores de $a, $b, $c como sige:</p>
+    <p>
+        $a = "ManejadorSQL"; <br>
+        $b = 'MySQL'; <br>
+        $c = &$a;
+    </p>
+    
+    <?php
+        $a = "ManejadorSQL";
+        $b = 'MySQL';
+        $c = &$a;
+
+        echo '<ol>';
+        echo '<li>Ahora muestra el contenido de cada variable</li>';
+        echo '<p>Valor de $a es: ' . "$a" . '</p>';
+        echo '<p>Valor de $b es: ' . "$b" . '</p>';
+        echo '<p>Valor de $c es: ' . "$c" . '</p>';
+
+        echo '<li>Agrega el código actual las siguientes asignaciones:</li>';
+
+        echo '<br><div style="margin-left: -40px;">$a = "PHP server" <br>';
+        echo '$b = &$a</div>';
+
+        $a = "PHP server";
+        $b = &$a;
+
+        echo '<br><li>Vuelve a mostrar el contenido de cada uno</li>';
+        echo '<p>Valor de $a es: ' . "$a" . '</p>';
+        echo '<p>Valor de $b es: ' . "$b" . '</p>';
+        echo '<p>Valor de $c es: ' . "$c" . '</p>';
+        echo '</ol>';
+
+        echo '<h4>Respuesta:</h4>';   
+    
+        echo '<p>';
+        echo 'Tanto $c y $b son referencias a $a, por lo que al momento de imprimir los valores,  las tres varaibles imprimen el mismo contenido';
+        echo '</p>';
+
     ?>
 </body>
 </html>
