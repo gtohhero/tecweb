@@ -75,7 +75,7 @@
         unset($a, $b, $c);
     ?>
 
-<h2>Ejercicio 3</h2>
+    <h2>Ejercicio 3</h2>
     <p>Muestra el contenido de cada variable inmediatamente después de cada asignación, verificar la evolución del tipo de estas variables (imprime todos los componentes del arreglo):</p>
     <p>
         $a = "PHP5"; <br>
@@ -117,6 +117,29 @@
         echo '<li>Valor de $z[0] es: </li>' . "$z[0]" . "<br>";
         var_dump($z[0]);
         echo '</ol>';
+    ?>
+
+    <h2>Ejercicio 4</h2>
+    <p>Lee y muestra los valores de las variables del ejercicio anterior, pero ahora con la ayuda de la matriz $GLOBALS o del modificador global de PHP</p>
+
+    <?php
+        global $a, $b, $c, $z;
+        
+        echo '<ol>';
+        echo '<li>Valor de $a es: </li>' . "$a" . "<br>";
+        var_dump($a);
+
+        echo '<li>Valor de $z[] es: </li>';
+        var_dump($z);
+
+        echo '<li>Valor de $c es: </li>' . "$c" . "<br>";
+        var_dump($c);
+
+        echo '<li>Valor de $z[0] es: </li>' . "$z[0]" . "<br>";
+        var_dump($z[0]);
+        echo '</ol>';
+
+        unset($a, $z, $b, $c);
     ?>
 
 </body>
