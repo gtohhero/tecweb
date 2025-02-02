@@ -89,7 +89,7 @@
 
     <?php
         $a = "PHP5";
-        echo '<ol>';
+        echo '<ul>';
         echo '<li>Valor de $a es: </li>' . "$a" . "<br>";
         var_dump($a);
 
@@ -116,7 +116,7 @@
         $z[0] = "MySQL";
         echo '<li>Valor de $z[0] es: </li>' . "$z[0]" . "<br>";
         var_dump($z[0]);
-        echo '</ol>';
+        echo '</ul>';
     ?>
 
     <h2>Ejercicio 4</h2>
@@ -125,7 +125,7 @@
     <?php
         global $a, $b, $c, $z;
         
-        echo '<ol>';
+        echo '<ul>';
         echo '<li>Valor de $a es: </li>' . "$a" . "<br>";
         var_dump($a);
 
@@ -137,7 +137,7 @@
 
         echo '<li>Valor de $z[0] es: </li>' . "$z[0]" . "<br>";
         var_dump($z[0]);
-        echo '</ol>';
+        echo '</ul>';
 
         unset($a, $z, $b, $c);
     ?>
@@ -153,9 +153,70 @@
 
     <?php
         $a = "7 personas";
+        echo '<ul>';
+        echo '<li>Valor de $a es: </li>' . "$a" . "<br>";
+        echo gettype($a) . "<br>";
+        var_dump($a);
+
         $b = (integer) $a;
+        echo '<li>Valor de $b es: </li>' . "$b" . "<br>";
+        echo gettype($b) . "<br>";
+        var_dump($b);
+
         $a = "9E3";
+        echo '<li>Valor de $a es: </li>' . "$a" . "<br>";
+        echo gettype($a) . "<br>";
+        var_dump($a);
+
         $c = (double) $a;
+        echo '<li>Valor de $c es: </li>' . "$c" . "<br>";
+        echo gettype($c) . "<br>";
+        var_dump($c);
+        echo '</ul>';
+
+        unset($a, $b, $c);
+    ?>
+
+    <h2>Ejercicio 6</h2>    
+    <p>Dar y comprobar el valor booleano de las variables $a, $b, $c, $d, $e, $f y muéstralas usando la función var_dump(datos).</p>
+    <p>Después investiga una función de PHP que permita transformar el valor booleano de $c y $e en uno que se pueda mostrar con un echo:</p>
+    <p>
+        $a = "0"; <br>
+        $b = "TRUE"; <br>
+        $c = FALSE; <br>
+        $d = ($a OR $b); <br>
+        $e = ($a AND $c); <br>
+        $f = ($a XOR $b);
+    </p>
+
+    <?php
+        $a = "0";
+        echo '<ul>';
+        echo '<li>Valor de $a es: </li>';
+        var_dump($a);
+
+        $b = "TRUE";
+        echo '<li>Valor de $b es: </li>';
+        var_dump($b);
+
+        $c = FALSE;
+        echo '<li>Valor de $c es: </li>';
+        var_dump($c);
+
+        $d = ($a OR $b);
+        echo '<li>Valor de $d es: </li>';
+        var_dump($d);
+
+        $e = ($a AND $c);
+        echo '<li>Valor de $e es: </li>';
+        var_dump($e);
+
+        $f = ($a XOR $b);
+        echo '<li>Valor de $f es: </li>';
+        var_dump($f);
+
+        echo '<li>Valor de $c es: </li>' . var_export($c, true) . '<br>';
+        echo '<li>Valor de $e es: </li>' . var_export($e, true) . '<br>';
     ?>
 
 </body>
