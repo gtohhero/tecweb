@@ -72,6 +72,52 @@
         echo 'Tanto $c y $b son referencias a $a, por lo que al momento de imprimir los valores,  las tres varaibles imprimen el mismo contenido';
         echo '</p>';
 
+        unset($a, $b, $c);
     ?>
+
+<h2>Ejercicio 3</h2>
+    <p>Muestra el contenido de cada variable inmediatamente después de cada asignación, verificar la evolución del tipo de estas variables (imprime todos los componentes del arreglo):</p>
+    <p>
+        $a = "PHP5"; <br>
+        $z[] = &$a; <br>
+        $b = "5a version de PHP"; <br>
+        $c = $b*10; <br>
+        $a . = $b; <br>
+        $b * = $c; <br>
+        $z[0] = "MySQL";
+    </p>
+
+    <?php
+        $a = "PHP5";
+        echo '<ol>';
+        echo '<li>Valor de $a es: </li>' . "$a" . "<br>";
+        var_dump($a);
+
+        $z[] = &$a;
+        echo '<li>Valor de $z[] es: </li>';
+        var_dump($z);
+
+        $b = "5a version de PHP";
+        echo '<li>Valor de $b es: </li>' . "$b" . "<br>";
+        var_dump($b);
+
+        $c = $b * 10;
+        echo '<li>Valor de $c es: </li>' . "$c" . "<br>";
+        var_dump($c);
+
+        $a .= $b;
+        echo '<li>Valor de $a es: </li>' . "$a" . "<br>";
+        var_dump($a);
+
+        $b *= $c;
+        echo '<li>Valor de $b es: </li>' . "$b" . "<br>";
+        var_dump($b);
+
+        $z[0] = "MySQL";
+        echo '<li>Valor de $z[0] es: </li>' . "$z[0]" . "<br>";
+        var_dump($z[0]);
+        echo '</ol>';
+    ?>
+
 </body>
 </html>
