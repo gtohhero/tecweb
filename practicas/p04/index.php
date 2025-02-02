@@ -120,7 +120,7 @@
     ?>
 
     <h2>Ejercicio 4</h2>
-    <p>Lee y muestra los valores de las variables del ejercicio anterior, pero ahora con la ayuda de la matriz $GLOBALS o del modificador global de PHP</p>
+    <p>Lee y muestra los valores de las variables del ejercicio anterior, pero ahora con la ayuda de la matriz $GLOBALS o del modificador global de PHP.</p>
 
     <?php
         global $a, $b, $c, $z;
@@ -140,6 +140,22 @@
         echo '</ol>';
 
         unset($a, $z, $b, $c);
+    ?>
+
+    <h2>Ejercicio 5</h2>    
+    <p>Dar el valor de las variables $a, $b, $c al final del siguiente script:</p>
+    <p>
+        $a = "7 personas"; <br>
+        $b = (integer) $a; <br>
+        $a = "9E3"; <br>
+        $c = (double) $a; <br>
+    </p>
+
+    <?php
+        $a = "7 personas";
+        $b = (integer) $a;
+        $a = "9E3";
+        $c = (double) $a;
     ?>
 
 </body>
