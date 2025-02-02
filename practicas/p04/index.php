@@ -217,6 +217,26 @@
 
         echo '<li>Valor de $c es: </li>' . var_export($c, true) . '<br>';
         echo '<li>Valor de $e es: </li>' . var_export($e, true) . '<br>';
+        echo '</ul>';
+    ?>
+
+    <h2>Ejercicio 7</h2>    
+    <p>Usando la variable predefinida $_SERVER, determina lo siguiente:</p>
+    <ol>
+        <li>La versión de Apache y PHP,</li>
+        <li>El nombre del sistema operativo (servidor),</li>
+        <li>El idioma del navegador (cliente).</li>
+    </ol>
+
+    <?php
+        echo "<ul>";
+        echo "<li>Versión de Apache: " . $_SERVER['SERVER_SOFTWARE'] . "</li> </br>";
+        $_SERVER['PHP_VERSION'] = phpversion();
+        echo "<li>Versión de PHP: " . $_SERVER['PHP_VERSION'] . "</li> </br>";
+        $_SERVER['SERVER_OS'] = php_uname();
+        echo "<li>Nombre del sistema operativo (servidor): " . $_SERVER['SERVER_OS'] . "</li> </br>";
+        echo "<li>Idioma del navegador: " . $_SERVER['HTTP_ACCEPT_LANGUAGE'] . "</li>";
+        echo "</ul>";
     ?>
 
 </body>
