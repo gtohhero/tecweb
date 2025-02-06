@@ -19,4 +19,29 @@
     echo '<br>';
     echo $email;
   }
+  
+  function secuencia($matriz, $lim) {
+    for ($i=0; $i<$lim; $i++) {
+      for ($j=0; $j<3; $j++) {
+          $valorNum=mt_rand(100, 999);
+          $matriz[$i][$j] = $valorNum;
+      }
+
+      if($matriz[$i][0]%2!=0 && $matriz[$i][1]%2==0 && $matriz[$i][2]%2!=0) {
+          break;
+      }
+      else {
+          $lim++;
+      }
+    }
+
+    for ($i=0; $i<$lim; $i++) {
+      for ($j=0; $j<3; $j++) {
+          echo $matriz[$i][$j].' ';
+      }
+      echo '<br>';
+    }
+  
+    echo '<br>' . $i*3 . ' numeros obtenidos en ' . $i . ' iteración(es)';
+  }
 ?>
