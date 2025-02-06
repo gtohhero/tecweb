@@ -44,4 +44,26 @@
   
     echo '<br>' . $i*3 . ' numeros obtenidos en ' . $i . ' iteración(es)';
   }
-?>
+
+    function whileNum($num, $encontrado) {
+      $num=$_GET['num1'];
+        while($encontrado==false) {
+            $valorNum=mt_rand(100, 999);
+            if($valorNum%$num==0) {
+                echo $valorNum .' es el número obtenido aleatoriamente que es múltiplo de '. $num;
+                $encontrado=true;
+            }
+        }
+    }
+    
+    function doWhileNum($num, $encontrado) {
+      $num=$_GET['num2'];
+        do{
+            $valorNum=mt_rand(100, 999);
+            if($valorNum%$num==0) {
+                echo $valorNum .' es el número obtenido aleatoriamente que es múltiplo de '. $num;
+                $encontrado=true;
+            }
+        }while($encontrado==false);
+    }
+  ?>
