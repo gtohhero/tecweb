@@ -17,7 +17,7 @@
     ?>
 
     <h2>Ejemplo de POST</h2>
-    <form action="http://localhost/tecweb/practicas/p04/index.php" method="post">
+    <form action="http://localhost/tecweb/practicas/p06/index.php" method="post">
         Name: <input type="text" name="name"><br>
         E-mail: <input type="text" name="email"><br>
         <input type="submit">
@@ -26,9 +26,7 @@
     <?php
         if(isset($_POST["name"]) && isset($_POST["email"]))
         {
-            echo $_POST["name"];
-            echo '<br>';
-            echo $_POST["email"];
+            print_nombreyemail($_POST["name"], $_POST["email"]);
         }
     ?>
 </body>
