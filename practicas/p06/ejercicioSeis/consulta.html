@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 6: Consulta de autos</title>
+</head>
+<body>
+    <form action="http://localhost/tecweb/practicas/p06/ejercicioSeis/src/parqueVehicular.php" method="post">
+        <h2>Consulta aquí tu auto:</h2>
+        <label for="matricula">Matricula:</label>
+        <input type="text" id="matricula" name="matricula" required><br><br>
+        <input type="submit">
+    </form>
+
+    <form action="http://localhost/tecweb/practicas/p06/ejercicioSeis/src/parqueVehicular.php" method="post">
+        <h2>¿No recuerdas tu matricula? Aquí puedes ver todos los autos registrados:</h2>
+        <input type="submit" name="verTodos">
+    </form>
+</body>
+</html>
