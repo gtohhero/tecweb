@@ -66,4 +66,16 @@
             }
         }while($encontrado==false);
     }
+
+    function abecedarioASCII($arreglo) {
+        for($i=97; $i<123; $i++) {
+            $arreglo[$i]=chr($i);
+        }
+        echo '<table border="1">';
+        echo '<tr><th>Índice</th><th>Valor</th></tr>';
+        foreach($arreglo as $key => $value) {
+            echo '<tr> <td>'. $key .'</td> <td>'. $value .'</td> </tr>';
+        }
+        echo '</table>';
+    }
   ?>

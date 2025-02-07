@@ -59,5 +59,18 @@
             doWhileNum($_GET['num2'], $bool);
         }
     ?>
+
+    <h2>Ejercicio 4</h2>
+    <p>Crear un arreglo cuyos índices van de 97 a 122 y cuyos valores son las letras de la 'a' a la 'z'. Usa la función chr(n) que devuelve el caracter cuyo código ASCII es n para poner el valor en cada índice. Es decir:</p>
+    <p>[97] => a</p>
+    <p>[98] => b</p>
+    <p>[99] => c</p>
+    <p>...</p>
+    <p>[122] => z</p>
+
+    <?php
+        $arreglo=[];
+        abecedarioASCII($arreglo);
+    ?>
 </body>
 </html>
