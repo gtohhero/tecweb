@@ -17,7 +17,7 @@
     ?>
 
     <h2>Ejemplo de POST</h2>
-    <form action="http://localhost/tecweb/practicas/p06/index.php" method="post">
+    <form action="http://localhost/tecweb/practicas/p06/ejerciciosUnoCuatro/index.php" method="post">
         Name: <input type="text" name="name"><br>
         E-mail: <input type="text" name="email"><br>
         <input type="submit">
