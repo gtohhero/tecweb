@@ -1,78 +1,74 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
 "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es">
-	<?php
-	if(isset($_GET['id']))
-		$id = $_GET['id'];
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Producto</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <h3>PRODUCTO</h3>
+    <br/>
 
-	if (!empty($id))
-	{
-		/** SE CREA EL OBJETO DE CONEXION */
-		@$link = new mysqli('localhost', 'root', 'daSH1NE_Zz!', 'marketzone');	
+    <?php
+        if(isset($_GET['tope']))
+        {
+            $tope = $_GET['tope'];
+        }
+        else
+        {
+            die('Parámetro "tope" no detectado...');
+        }
 
-		/** comprobar la conexión */
-		if ($link->connect_errno) 
-		{
-			die('Falló la conexión: '.$link->connect_error.'<br/>');
-			    /** NOTA: con @ se suprime el Warning para gestionar el error por medio de código */
-		}
+        /** SE CREA EL OBJETO DE CONEXION */
+        $link = new mysqli('localhost', 'root', 'daSH1NE_Zz!', 'marketzone');
 
-		/** Crear una tabla que no devuelve un conjunto de resultados */
-		if ( $result = $link->query("SELECT * FROM productos WHERE id = '{$id}'") ) 
-		{
-			$row = $result->fetch_array(MYSQLI_ASSOC);
-			/** útil para liberar memoria asociada a un resultado con demasiada información */
-			$result->free();
-		}
+        if ($link->connect_errno) {
+            die('<script>alert("Falló la conexión: ' . $link->connect_error . '");</script>');
+        }
 
-		$link->close();
-	}
-	?>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<title>Producto</title>
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	</head>
-	<body>
-		<h3>PRODUCTO</h3>
+        $stmt = $link->prepare("SELECT * FROM productos WHERE unidades <= ?");
+        $stmt->bind_param("i", $tope);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-		<br/>
-		
-		<?php if( isset($row) ) : ?>
+        if ($result->num_rows > 0) {
+            echo '<table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Marca</th>
+                            <th scope="col">Modelo</th>
+                            <th scope="col">Precio</th>
+                            <th scope="col">Unidades</th>
+                            <th scope="col">Detalles</th>
+                            <th scope="col">Imagen</th>
+                        </tr>
+                    </thead>
+                    <tbody>';
 
-			<table class="table">
-				<thead class="thead-dark">
-					<tr>
-					<th scope="col">#</th>
-					<th scope="col">Nombre</th>
-					<th scope="col">Marca</th>
-					<th scope="col">Modelo</th>
-					<th scope="col">Precio</th>
-					<th scope="col">Unidades</th>
-					<th scope="col">Detalles</th>
-					<th scope="col">Imagen</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th scope="row"><?= $row['id'] ?></th>
-						<td><?= $row['nombre'] ?></td>
-						<td><?= $row['marca'] ?></td>
-						<td><?= $row['modelo'] ?></td>
-						<td><?= $row['precio'] ?></td>
-						<td><?= $row['unidades'] ?></td>
-						<td><?= $row['detalles'] ?></td>
-						<td><img src=<?= $row['imagen'] ?> ></td>
-					</tr>
-				</tbody>
-			</table>
+            while ($row = $result->fetch_assoc()) {
+                echo '<tr>
+                        <th scope="row">' . htmlspecialchars($row['id']) . '</th>
+                        <td>' . htmlspecialchars($row['nombre']) . '</td>
+                        <td>' . htmlspecialchars($row['marca']) . '</td>
+                        <td>' . htmlspecialchars($row['modelo']) . '</td>
+                        <td>' . htmlspecialchars($row['precio']) . '</td>
+                        <td>' . htmlspecialchars($row['unidades']) . '</td>
+                        <td>' . htmlspecialchars($row['detalles']) . '</td>
+                        <td><img src="'. htmlspecialchars($row['imagen']) .'" width="100"></td>
+                    </tr>';
+            }
 
-		<?php elseif(!empty($id)) : ?>
+            echo '</tbody></table>';
+        } else {
+            echo '<script>alert("No hay productos con stock menor o igual a '. $tope .'");</script>';
+        }
 
-			 <script>
-                alert('El ID del producto no existe');
-             </script>
-
-		<?php endif; ?>
-	</body>
+        $stmt->close();
+        $link->close();
+    ?>
+</body>
 </html>
