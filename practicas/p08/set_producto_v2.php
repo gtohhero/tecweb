@@ -49,7 +49,11 @@
         // Si encontró anteriormente repetidos, pasa por este if. :<
         if($nomResultado->num_rows == 0 && $marcaResultado->num_rows == 0 && $modeloResultado->num_rows == 0) {
             /** Crear una tabla que no devuelve un conjunto de resultados */
-            $sql = "INSERT INTO productos VALUES (null, '{$nombre}', '{$marca}', '{$modelo}', {$precio}, '{$detalles}', {$unidades}, 'img/{$imagen}.png', 0)";
+            //$sql = "INSERT INTO productos VALUES (null, '{$nombre}', '{$marca}', '{$modelo}', {$precio}, '{$detalles}', {$unidades}, 'img/{$imagen}.png', 0)";
+            
+            $sql = "INSERT INTO productos (id, nombre, marca, modelo, precio, detalles, unidades, imagen, eliminado)
+                    VALUES (null, '{$nombre}', '{$marca}', '{$modelo}', {$precio}, '{$detalles}', {$unidades}, 'img/{$imagen}.png', 0)";
+
             if ( $link->query($sql) ) 
             {
                 echo 'Producto insertado con ID: '.$link->insert_id;
