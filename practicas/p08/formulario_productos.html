@@ -1,0 +1,41 @@
+<!DOCTYPE html >
+<html>
+  <head>
+    <meta charset="utf-8" >
+    <title>Registro al Concurso</title>
+    <style type="text/css">
+      ol, ul { 
+      list-style-type: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Registro de productos &ldquo;marketzone&rdquo;</h1>
+
+    <p>¿Quieres agregar un nuevo producto a la base de datos? <em>Rellena los datos</em> del producto en los siguientes campos</p>
+
+    <form id="formularioProduct" action="http://localhost/tecweb/practicas/p08/set_producto_v2.php" method="post">
+
+      <fieldset>
+        <legend>Información del producto</legend>
+
+        <ul>
+          <li><label for="form-name">Nombre:</label><br><input type="text" name="name" id="form-name"></li><br>
+          <li><label for="form-brand">Marca:</label><br><input type="text" name="marca" id="form-brand"></li><br>
+          <li><label for="form-model">Modelo:</label><br><input type="text" name="model" id="form-model"></li><br>
+          <li><label for="form-price">Precio:</label><br><input type="number" name="price" id="form-price" min="1"></li><br>
+          <li><label for="form-quantity">Unidades:</label><br><input type="number" name="quantity" id="form-quantity" min="1"></li><br>
+          <li><label for="form-details">Detalles:</label><br><textarea name="details" rows="4" cols="50" id="form-details" placeholder="No más de 100 caracteres de longitud" maxlength="100"></textarea></li><br>
+          <li><label for="form-img">Nombre del archivo de imagen:</label><br><input type="text" name="img" id="img"> . No olvides incluir la extensión de la imagen.</li>
+        </ul>
+      </fieldset>
+
+      <p>
+        <input type="submit" value="¡Chidos mis Tenis!">
+        <input type="reset">
+      </p>
+
+    </form>
+  </body>
+</html>
