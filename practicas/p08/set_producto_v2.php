@@ -25,6 +25,13 @@
         $unidades = $_POST['quantity'];
         $imagen = $_POST['img'];
 
+        if (empty($imagen)) {
+            $imagen = 'img/imagen.png';
+        }
+        else {
+            $imagen = "img/".$_POST['img'].".png";
+        }
+
         /** SE CREA EL OBJETO DE CONEXION */
         @$link = new mysqli('localhost', 'root', 'daSH1NE_Zz!', 'marketzone');	
 
@@ -52,7 +59,7 @@
             //$sql = "INSERT INTO productos VALUES (null, '{$nombre}', '{$marca}', '{$modelo}', {$precio}, '{$detalles}', {$unidades}, 'img/{$imagen}.png', 0)";
             
             $sql = "INSERT INTO productos (nombre, marca, modelo, precio, detalles, unidades, imagen)
-                    VALUES ('{$nombre}', '{$marca}', '{$modelo}', {$precio}, '{$detalles}', {$unidades}, 'img/{$imagen}.png')";
+                    VALUES ('{$nombre}', '{$marca}', '{$modelo}', {$precio}, '{$detalles}', {$unidades}, '{$imagen}')";
 
             if ( $link->query($sql) ) 
             {
