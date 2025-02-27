@@ -1,0 +1,98 @@
+<!DOCTYPE html >
+<html>
+  <head>
+    <meta charset="utf-8" >
+    <title>Registro al Concurso</title>
+    <style type="text/css">
+      ol, ul { 
+      list-style-type: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Registro de libro en &ldquo;marketzone&rdquo;</h1>
+
+    <p>¿Quieres agregar un nuevo libro a la base de datos? <em>Rellena los datos</em> del libro en los siguientes campos con las opciones permitidas</p>
+
+    <form id="formularioProduct" action="http://localhost/tecweb/practicas/p08/set_producto_v2.php" method="post">
+
+      <fieldset>
+        <legend>Información del libro</legend>
+
+        <ul>
+          <li><label for="form-name">Nombre:</label><br><input type="text" name="name" id="form-name" placeholder="Hasta 100 caracteres"></li><br>
+          <li><label for="form-brand">Marca:</label><br><select name="brand" id="form-brand">
+            <option selected>Seleccionar</option>
+            <option>Pluma Eterna</option>
+            <option>Luz & Tinta</option>
+            <option>Vórtice Literario</option>
+            <option>Alas de Papel</option>
+            <option>Sombras & Destello</option>
+          </select></li><br>
+          <li><label for="form-model">Modelo:</label><br><input type="text" name="model" id="form-model" placeholder="Hasta 25 caracteres"></li><br>
+          <li><label for="form-price">Precio:</label><br><input type="number" name="price" id="form-price" step="0.01"></li><br>
+          <li><label for="form-quantity">Unidades:</label><br><input type="number" name="quantity" id="form-quantity"></li><br>
+          <li><label for="form-details">Detalles:</label><br><textarea name="details" rows="4" cols="50" id="form-details" placeholder="Hasta 250 caracteres"></textarea></li><br>
+          <li><label for="form-img">Nombre del archivo de imagen:</label><br><input type="text" name="img" id="img"> . No hace falta agregar la extensión, solo que esté guardada en la carpeta img y sea .png.</li>
+        </ul>
+      </fieldset>
+
+      <p>
+        <input type="submit" value="¡Enviar libro!">
+        <input type="reset">
+      </p>
+
+    </form>
+    <script>
+      let form = document.getElementById("formularioProduct");
+      
+      form.addEventListener("submit", function(event) {
+        let nombre = document.getElementById("form-name").value;
+        let marca = document.getElementById("form-brand").value;
+        let modelo = document.getElementById("form-model").value;
+        let precio = document.getElementById("form-price").value;
+        let unidad = document.getElementById("form-quantity").value;
+        let detalle = document.getElementById("form-details").value;
+        let imagen = document.getElementById("img").value;
+
+        if (nombre.trim() === "" || nombre.length > 100) {
+          event.preventDefault();
+          alert("Error: Nombre supera el límite de caracteres o es vacío.");
+        }
+
+        if (marca == "Seleccionar") {
+          event.preventDefault();
+          alert("Error: No se seleccionó una marca de las proporcionadas.");
+        }
+
+        if (modelo.trim() === "" || modelo.length > 25 || !/^[a-zA-Z0-9\sáéíóúÁÉÍÓÚüÜñÑ-]+$/.test(modelo)) { // esta última condición solo acepta: letras, números, espacios, guiones, acentos y la ñ.
+          event.preventDefault();
+          alert("Error: Modelo supera el límite de caracteres, es vacío o no es un texto alfanumérico.");
+        }
+
+        if(precio.trim() === "" || parseFloat(precio) <= 99.99) {
+          event.preventDefault();
+          alert("Error: Precio es vacío o no supera los 99.99 en valor");
+        }
+
+        if(detalle.trim() !== "") {
+          if(detalle.length > 250) {
+            event.preventDefault();
+            alert("Error: Los detalles superan el límite permitido de caracteres.");
+          }
+        }
+        
+        if(unidad.trim() === "" || Number(unidad) < 0) {
+          event.preventDefault();
+          alert("Error: Cantidad es vacía o es menor a 0");
+        }
+        
+        if(imagen.trim() === "") {
+          imagen = "imagen1";
+          document.getElementById("img").value =  imagen;
+        }
+      });
+    </script>
+  </body>
+</html>
