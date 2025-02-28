@@ -90,7 +90,7 @@
         <?php endif; ?>
 
         <script>
-            function send2form(name, brand, model, price, quantity, details, image) {
+            function send2form(name, brand, model, price, quantity, details, image, id) {
                 var form = document.createElement("form");
 
                 var nombreIn = document.createElement("input");
@@ -99,12 +99,14 @@
                 nombreIn.value = name;
                 form.appendChild(nombreIn);
                 
-                /*var marcaSe = document.createElement("select");
+                var marcaSe = document.createElement("select");
+                marcaSe.hidden = true;
                 marcaSe.name = 'marca';
                 var option = document.createElement("option");
                 option.value = brand;
                 option.text = brand;
-                marcaSe.appendChild(option);*/
+                marcaSe.appendChild(option);
+                form.appendChild(marcaSe);
 
                 var modeloIn = document.createElement("input");
                 modeloIn.type = 'hidden';

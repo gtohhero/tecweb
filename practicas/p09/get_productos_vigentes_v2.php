@@ -88,12 +88,14 @@
                 nombreIn.value = name;
                 form.appendChild(nombreIn);
                 
-                /*var marcaSe = document.createElement("select");
+                var marcaSe = document.createElement("select");
+                marcaSe.hidden = true;
                 marcaSe.name = 'marca';
                 var option = document.createElement("option");
                 option.value = brand;
                 option.text = brand;
-                marcaSe.appendChild(option);*/
+                marcaSe.appendChild(option);
+                form.appendChild(marcaSe);
 
                 var modeloIn = document.createElement("input");
                 modeloIn.type = 'hidden';

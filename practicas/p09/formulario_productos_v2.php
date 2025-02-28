@@ -23,14 +23,17 @@
         <ul>
           <li><label for="form-name">Nombre:</label><br><input type="text" name="name" id="form-name" placeholder="Hasta 100 caracteres" value="<?=!empty($_POST['nombre'])?$_POST['nombre']:$_GET['nombre'] ?>"></li><br>
           
-          <li><label for="form-brand">Marca:</label><br><select name="brand" id="form-brand">
+          <li>
+          <label for="form-brand">Marca:</label><br>
+          <select name="brand" id="form-brand">
             <option selected disabled>Seleccionar</option>
             <option>Pluma Eterna</option>
             <option>Luz & Tinta</option>
             <option>Vórtice Literario</option>
             <option>Alas de Papel</option>
             <option>Sombras & Destello</option>
-          </select></li><br>
+          </select>
+        </li><br>
           
           <li><label for="form-model">Modelo:</label><br><input type="text" name="model" id="form-model" placeholder="Hasta 25 caracteres" value="<?= !empty($_POST['modelo'])?$_POST['modelo']:$_GET['modelo'] ?>"></li><br>
           
