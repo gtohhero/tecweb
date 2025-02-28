@@ -105,6 +105,7 @@
                 var option = document.createElement("option");
                 option.value = brand;
                 option.text = brand;
+                option.selected = true;
                 marcaSe.appendChild(option);
                 form.appendChild(marcaSe);
 

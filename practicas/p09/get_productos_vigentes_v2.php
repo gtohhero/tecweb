@@ -74,7 +74,7 @@
             </table>
         <?php else : ?>
             <script>
-                alert('No hay productos con unidades <?= $tope ?>');
+                alert('No hay productos con unidades');
             </script>
         <?php endif; ?>
     
@@ -94,6 +94,7 @@
                 var option = document.createElement("option");
                 option.value = brand;
                 option.text = brand;
+                option.selected = true;
                 marcaSe.appendChild(option);
                 form.appendChild(marcaSe);
 

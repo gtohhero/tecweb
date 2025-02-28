@@ -23,17 +23,27 @@
         <ul>
           <li><label for="form-name">Nombre:</label><br><input type="text" name="name" id="form-name" placeholder="Hasta 100 caracteres" value="<?=!empty($_POST['nombre'])?$_POST['nombre']:$_GET['nombre'] ?>"></li><br>
           
+          <?php
+          if(isset($_POST['marca'])) {
+            $marcaSeleccionada=$_POST['marca'];
+          }
+          else {
+            $marcaSeleccionada='';
+          }
+          ?>
+
           <li>
-          <label for="form-brand">Marca:</label><br>
-          <select name="brand" id="form-brand">
-            <option selected disabled>Seleccionar</option>
-            <option>Pluma Eterna</option>
-            <option>Luz & Tinta</option>
-            <option>Vórtice Literario</option>
-            <option>Alas de Papel</option>
-            <option>Sombras & Destello</option>
-          </select>
-        </li><br>
+              <label for="form-brand">Marca:</label><br>
+              <select name="brand" id="form-brand">
+                  <option disabled selected>Seleccionar</option>
+                  <option value="Pluma Eterna" <?php if($marcaSeleccionada=='Pluma Eterna'){echo 'selected';}?>>Pluma Eterna</option>
+                  <option value="Luz y Tinta" <?php if($marcaSeleccionada=='Luz y Tinta'){echo 'selected';}?>>Luz y Tinta</option>
+                  <option value="Vórtice Literario" <?php if($marcaSeleccionada=='Vórtice Literario'){echo 'selected';}?>>Vórtice Literario</option>
+                  <option value="Alas de Papel" <?php if($marcaSeleccionada=='Alas de Papel'){echo 'selected';}?>>Alas de Papel</option>
+                  <option value="Sombras y Destello" <?php if($marcaSeleccionada=='Sombras y Destello'){echo 'selected';}?>>Sombras y Destello</option>
+              </select>
+          </li><br>
+
           
           <li><label for="form-model">Modelo:</label><br><input type="text" name="model" id="form-model" placeholder="Hasta 25 caracteres" value="<?= !empty($_POST['modelo'])?$_POST['modelo']:$_GET['modelo'] ?>"></li><br>
           
