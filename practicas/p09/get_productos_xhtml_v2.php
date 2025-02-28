@@ -12,7 +12,7 @@
     }
 
     if (!empty($tope)) {
-        @$link = new mysqli('localhost', 'root', 'daSH1NE_Zz!', 'marketzone');
+        @$link = new mysqli('localhost', 'root', 'daSH1NE_Zz!', 'bookstore');
 
         if ($link->connect_errno) {
             die('Falló la conexión: '.$link->connect_error.'<br/>');
@@ -45,7 +45,7 @@
             var image = data[6].firstChild.getAttribute('src');
 
             alert("Nombre: " + name + "\nMarca: " + brand + "\nModelo: " + model + "\nPrecio: " + price + "\nCantidad: " + quantity + "\nDetalles: " + details + "\nRuta de imagen: " + image);
-            send2form(name, brand, model, price, quantity, details, image);
+            send2form(name, brand, model, price, quantity, details, image, rowId);
         }
         </script>
     </head>
@@ -135,6 +135,12 @@
                 imageIn.name = 'imagen';
                 imageIn.value = image;
                 form.appendChild(imageIn);
+
+                var idIn = document.createElement("input");
+                idIn.type = 'hidden';
+                idIn.name = 'id';
+                idIn.value = id;
+                form.appendChild(idIn);
 
                 console.log(form);
 

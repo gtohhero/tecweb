@@ -1,30 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style type="text/css">
-      ol, ul { 
-      list-style-type: none;
-      }
-    </style>
-    <title>Formulario</title>
-</head>
-<body>
-    <h1>Datos Personales</h1>
+<?php
+    /* MySQL Conexion*/
+    $link = mysqli_connect("localhost", "root", "daSH1NE_Zz!", "bookstore");
+    
+    // Chequea coneccion
+    if($link === false){
+        die("ERROR: No pudo conectarse con la DB. " . mysqli_connect_error());
+    }
 
-    <form id="miFormulario" onsubmit="" method="post">
-        <fieldset>
-            <legend>Actualiza los datos personales de esta persoa:</legend>
-            <ul>
-                <li><label>Nombre:</label> <input type="text" name="name" value="<?= !empty($_POST['nombre'])?$_POST['nombre']:$_GET['nombre'] ?>"></li>
-                <li><label>Edad:</label> <input type="text" name="age" value="<?= !empty($_POST['edad'])?$_POST['edad']:$_GET['edad'] ?>"></li>
-            </ul>
-        </fieldset>
-        <p>
-            <input type="submit" value="ENVIAR">
-        </p>
-    </form>
-</body>
-</html>
+    // Obtén los datos enviados desde el formulario
+    $name = $_POST['name'];
+    $brand = $_POST['brand'];
+    $model = $_POST['model'];
+    $price = $_POST['price'];
+    $quantity = $_POST['quantity'];
+    $details = $_POST['details'];
+    $img = $_POST['img'];
+    $id = $_POST['id'];
+
+    // Consulta SQL para actualizar el producto en la base de datos
+    $sql = "UPDATE productos SET 
+                nombre = '$name', 
+                marca = '$brand', 
+                modelo = '$model', 
+                precio = $price, 
+                detalles = '$details',
+                unidades = $quantity, 
+                imagen = '$img' 
+            WHERE id = {$id}";
+
+    // Ejecutar la consulta
+    if(mysqli_query($link, $sql)){
+        echo "Registro actualizado.";
+    } else {
+        echo "ERROR: No se ejecuto $sql. " . mysqli_error($link);
+    }
+    
+    // Cierra la conexion
+    mysqli_close($link);
+?>

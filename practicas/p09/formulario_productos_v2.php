@@ -11,11 +11,11 @@
   </head>
 
   <body>
-    <h1>Actualización de libro en &ldquo;marketzone&rdquo;</h1>
+    <h1>Actualización de libro en &ldquo;bookstore&rdquo;</h1>
 
     <p>¿Quieres actualizar un libro a la base de datos?<p>
 
-    <form id="formularioProduct" onsubmit="" method="post">
+    <form id="formularioProduct" action="update_producto.php" method="post">
 
       <fieldset>
         <legend>Información del libro</legend>
@@ -41,6 +41,8 @@
           <li><label for="form-details">Detalles:</label><br><textarea name="details" rows="4" cols="50" id="form-details" placeholder="Hasta 250 caracteres"><?= !empty($_POST['detalles'])?$_POST['detalles']:$_GET['detalles'] ?></textarea></li><br>
           
           <li><label for="form-img">Nombre del archivo de imagen:</label><br><input type="text" name="img" id="img" value="<?= !empty($_POST['imagen'])?$_POST['imagen']:$_GET['imagen'] ?>"></li>
+
+          <li hidden><label for="form-id">ID</label><br><input type="text" name="id" id="id" value="<?= !empty($_POST['id'])?$_POST['id']:$_GET['id'] ?>"></li>
         </ul>
       </fieldset>
 
