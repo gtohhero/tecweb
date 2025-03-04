@@ -4,7 +4,7 @@
     // SE OBTIENE LA INFORMACIÓN DEL PRODUCTO ENVIADA POR EL CLIENTE
     $producto = file_get_contents('php://input');
     if(!empty($producto)) {
-        // SE TRANSFORMA EL STRING DEL JASON A OBJETO
+        // SE TRANSFORMA EL STRING DEL JSON A OBJETO
         $jsonOBJ = json_decode($producto);
         /**
          * SUSTITUYE LA SIGUIENTE LÍNEA POR EL CÓDIGO QUE REALICE
