@@ -129,10 +129,12 @@ function agregarProducto(e) {
         mensajesErrores.forEach(mensaje => {
             let divError = document.createElement("div");
             divError.textContent = mensaje;
-            document.getElementById("errores").appendChild(divError); // se inserta divError en la etiqueta div con id = errores en el HTML.
+            document.getElementById("errores").appendChild(divError); // se inserta divError en la etiqueta div con id = errores en el HTML
         });
-        return;
+        return; // se regresa hasta no encontrar errores
     }
+
+    document.getElementById("errores").innerHTML = ""; // elimina los mensajes restantes de error
 
     // SE OBTIENE EL STRING DEL JSON FINAL
     productoJsonString = JSON.stringify(finalJSON,null,2);
@@ -145,6 +147,8 @@ function agregarProducto(e) {
         // SE VERIFICA SI LA RESPUESTA ESTÁ LISTA Y FUE SATISFACTORIA
         if (client.readyState == 4 && client.status == 200) {
             console.log(client.responseText);
+            var mensaje = client.responseText;
+            window.alert(mensaje); // Aquí se muestra el mensaje al usuario
         }
     };
     client.send(productoJsonString);
