@@ -21,6 +21,7 @@ $(function () {
     console.log('JQuery is working :>');
     $('#product-result').hide();
     listarProductos();
+    let edit = false;
 
     // FUNCIÓN CALLBACK AL CARGAR LA PÁGINA O AL AGREGAR UN PRODUCTO
     function listarProductos() {
@@ -46,8 +47,10 @@ $(function () {
 
                     template += `
                                 <tr productId="${producto.id}">
-                                    <td class="productId">${producto.id}</td>
-                                    <td>${producto.nombre}</td>
+                                    <td>${producto.id}</td>
+                                    <td>
+                                        <a href="#" class="product-item">${producto.nombre}</a>
+                                    </td>
                                     <td><ul>${descripcion}</ul></td>
                                     <td>
                                         <button class="product-delete btn btn-danger">
@@ -103,7 +106,9 @@ $(function () {
                         template += `
                                     <tr productId="${producto.id}">
                                         <td>${producto.id}</td>
-                                        <td>${producto.nombre}</td>
+                                        <td>
+                                            <a href="#" class="product-item">${producto.nombre}</a>
+                                        </td>
                                         <td><ul>${descripcion}</ul></td>
                                         <td>
                                             <button class="product-delete btn btn-danger">
@@ -118,19 +123,20 @@ $(function () {
                                 `;
                     });
 
-                    if (Object.keys(productos).length > 0) {
-                        // SE HACE VISIBLE LA BARRA DE ESTADO
-                        $('#product-result').addClass("card my-4 d-block");
-                        // SE INSERTA LA PLANTILLA PARA LA BARRA DE ESTADO
-                        $('#container').html(template_bar);
-                        // SE INSERTA LA PLANTILLA EN EL ELEMENTO CON ID "productos"
-                        $('#products').html(template);
-                    }
+                    
+                    // SE HACE VISIBLE LA BARRA DE ESTADO
+                    $('#product-result').addClass("card my-4 d-block");
+                    // SE INSERTA LA PLANTILLA PARA LA BARRA DE ESTADO
+                    $('#container').html(template_bar);
+                    // SE INSERTA LA PLANTILLA EN EL ELEMENTO CON ID "productos"
+                    $('#products').html(template);
+                    
                 }
             });
         }
         else {
             console.log('No hay resultados sin búsqueda.');
+            listarProductos();
         }
     })
 
@@ -139,23 +145,28 @@ $(function () {
         e.preventDefault();
         const postData = { //este objeto solo recolecta la información del html. 
             name: $('#name').val(),
-            description: $('#description').val() //un string JSON contenido en un objeto que debe luego convertirse en un objeto
+            description: $('#description').val(), //un string JSON contenido en un objeto que debe luego convertirse en un objeto
+            id: $('#productId').val()
         };
 
         var finalJSON = JSON.parse(postData.description); //finalJSON guarda la transformación de string JSON a objeto de description
 
         finalJSON['nombre'] = postData.name; //se le agrega el valor de nombre de postData a finalJSON con el índice nombre
+        finalJSON['id'] = postData.id;
 
         /* ESPECIALMENTE EN ESTE PUNTO PORQUE UNA VEZ CONVERTIDO EN STRING JSON NO ES POSIBLE ACCEDER A LOS VALORES COMO EN UN OBJETO
         * AQUÍ DEBES AGREGAR LAS VALIDACIONES DE LOS DATOS EN EL JSON
-        * ...
-        * 
+        */
+        
+        /* 
         * --> EN CASO DE NO HABER ERRORES, SE ENVIAR EL PRODUCTO A AGREGAR
         */
         
         var postDataJSON = JSON.stringify(finalJSON, null, 2); //finalmente se convierte nuevamente en un string JSON para ser enviado al servidor
 
-        $.post('./backend/product-add.php', postDataJSON, function(response){
+        let url = edit === false ? './backend/product-add.php' : './backend/product-edit.php';
+
+        $.post(url, postDataJSON, function(response){
             listarProductos();
             $('#product-form').trigger('reset');
             init();
@@ -165,13 +176,44 @@ $(function () {
 
     // FUNCIÓN CALLBACK DE BOTÓN "Eliminar"
     $(document).on('click', '.product-delete', function() {
-        let element = $(this)[0].parentElement.parentElement;
-        let id = $(element).attr('productId');
-        console.log(id);
-        
-        $.get('./backend/product-delete.php', {id}, function(response) {
-            console.log(response);
-            listarProductos();
-        })
+        if(confirm('¿Estás seguro de querer eliminar esto?')) {
+            let element = $(this)[0].parentElement.parentElement;
+            let id = $(element).attr('productId');
+            console.log(id);
+            
+            $.get('./backend/product-delete.php', {id}, function(response) {
+                console.log(response);
+                listarProductos();
+            })
+        }
+    })
+
+    // FUNCIÓN CALLBACK DE BOTÓN "Editar"
+    $(document).on('click', '.product-item', function() {
+        if(confirm('¿Estás seguro de querer editar esto?')) {
+            let element = $(this)[0].parentElement.parentElement;
+            let id = $(element).attr('productId');
+            
+            $.post('./backend/product-single.php', {id}, function(response) {
+                console.log(response);
+                const product = JSON.parse(response);
+                $('#name').val(product.name);
+                $('#productId').val(product.id);
+
+                const description = {
+                    "precio": product.precio,
+                    "unidades": product.unidades,
+                    "modelo": product.modelo,
+                    "marca": product.marca,
+                    "detalles": product.detalles,
+                    "imagen": product.imagen
+                };
+                
+                $('#description').val(JSON.stringify(description, null, 2));
+                edit = true;
+
+                listarProductos();
+            })
+        }
     })
 });
