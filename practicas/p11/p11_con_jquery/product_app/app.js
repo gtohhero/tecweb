@@ -5,7 +5,7 @@ var baseJSON = {
     "modelo": "XX-000",
     "marca": "NA",
     "detalles": "NA",
-    "imagen": "img/default.png"
+    "imagen": "img/default.png."
   };
 
 function init() {
@@ -90,7 +90,7 @@ $(function () {
                     let template_bar = '';
                     productos.forEach(producto => {
                         // SE COMPRUEBA QUE SE OBTIENE UN OBJETO POR ITERACIÓN
-                        console.log(producto);
+                        //console.log(producto);
 
                         // SE CREA UNA LISTA HTML CON LA DESCRIPCIÓN DEL PRODUCTO
                         let descripcion = '';
