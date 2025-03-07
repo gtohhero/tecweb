@@ -45,7 +45,7 @@ function listarProductos() {
 
                     // SE CREA UNA LISTA HTML CON LA DESCRIPCIÓN DEL PRODUCTO
                     let descripcion = '';
-                    descripcion += '<li>precio: ' + producto.unidades + '</li>';
+                    descripcion += '<li>precio: ' + producto.precio + '</li>';
                     descripcion += '<li>unidades: ' + producto.unidades + '</li>';
                     descripcion += '<li>modelo: ' + producto.modelo + '</li>';
                     descripcion += '<li>marca: ' + producto.marca + '</li>';
@@ -223,11 +223,6 @@ function agregarProducto(e) {
         document.getElementById("product-result").className = "card my-4 d-block";
         // SE INSERTA LA PLANTILLA PARA LA BARRA DE ESTADO
         document.getElementById("container").innerHTML = template_bar;
-        return;
-    }
-
-    if (hayErrores) {
-        alert(mensajesErrores.join("\n \n"));
         return;
     }
     /* 
