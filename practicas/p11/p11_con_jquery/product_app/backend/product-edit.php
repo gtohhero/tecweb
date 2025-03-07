@@ -19,7 +19,7 @@
                 unidades = {$jsonOBJ->unidades}, imagen = '{$jsonOBJ->imagen}' WHERE id = '{$jsonOBJ->id}'";
              if($conexion->query($sql)){
                  $data['status'] =  "success";
-                 $data['message'] =  "Producto agregado";
+                 $data['message'] =  "Producto editado";
              } else {
                  $data['message'] = "ERROR: No se ejecuto $sql. " . mysqli_error($conexion);
              }
