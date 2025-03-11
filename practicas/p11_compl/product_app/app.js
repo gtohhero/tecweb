@@ -1,19 +1,18 @@
-// JSON BASE A MOSTRAR EN FORMULARIO
-var baseJSON = {
-    "precio": 0.0,
-    "unidades": 1,
-    "modelo": "XX-000",
-    "marca": "NA",
-    "detalles": "NA",
-    "imagen": "img/default.png"
-  };
-
 $(document).ready(function(){
     let edit = false;
 
-    let JsonString = JSON.stringify(baseJSON,null,2);
-    $('#description').val(JsonString);
+    function reiniciarValores() { // Más adelante será muy necesario reiniciar los campos.
+        $('#name').val('');
+        $('#price').val('0.0');
+        $('#quantity').val('0'); // Estos últimos son valores numéricos pero los dejó en un string por mera estética, al final, las verificaciones se encargan de no aceptar un valor así.
+        $('#model').val('XX-000');
+        $('#description').val('NA');
+        $('#image').val('img/default.png');
+        $('#brand').val('NA');
+    }
+
     $('#product-result').hide();
+    reiniciarValores();
     listarProductos();
 
     function listarProductos() {
@@ -44,7 +43,7 @@ $(document).ready(function(){
                                 <td><a href="#" class="product-item">${producto.nombre}</a></td>
                                 <td><ul>${descripcion}</ul></td>
                                 <td>
-                                    <button class="product-delete btn btn-danger" onclick="eliminarProducto()">
+                                    <button class="product-delete btn btn-danger">
                                         Eliminar
                                     </button>
                                 </td>
@@ -119,14 +118,22 @@ $(document).ready(function(){
     });
 
     $('#product-form').submit(e => {
-        $('button.btn-primary').text("Agregar Producto");
         e.preventDefault();
+        $('button.btn-primary').text("Agregar Producto");
 
         // SE CONVIERTE EL JSON DE STRING A OBJETO
-        let postData = JSON.parse( $('#description').val() );
-        // SE AGREGA AL JSON EL NOMBRE DEL PRODUCTO
-        postData['nombre'] = $('#name').val();
-        postData['id'] = $('#productId').val();
+//        let postData = JSON.parse( $('#description').val() ); No hay más JSON, por ende, esta línea queda inválida.
+
+        const postData = { // Aún es necesario un objeto que contenga la información del formulario. :<
+            nombre: $('#name').val(),
+            id: $('#productId').val(),
+            precio: $('#price').val(),
+            unidades: $('#quantity').val(),
+            modelo: $('#model').val(),
+            marca: $('#brand option:selected').text(),
+            detalles: $('#description').val(),
+            imagen: $('#image').val()
+        };
 
         /**
          * AQUÍ DEBES AGREGAR LAS VALIDACIONES DE LOS DATOS EN EL JSON
@@ -146,8 +153,7 @@ $(document).ready(function(){
                         <li style="list-style: none;">message: ${respuesta.message}</li>
                     `;
             // SE REINICIA EL FORMULARIO
-            $('#name').val('');
-            $('#description').val(JsonString);
+            reiniciarValores();
             // SE HACE VISIBLE LA BARRA DE ESTADO
             $('#product-result').show();
             // SE INSERTA LA PLANTILLA PARA LA BARRA DE ESTADO
@@ -171,28 +177,47 @@ $(document).ready(function(){
     });
 
     $(document).on('click', '.product-item', (e) => {
-        $('button.btn-primary').text("Modificar Producto");
         const element = $(this)[0].activeElement.parentElement.parentElement;
         const id = $(element).attr('productId');
         $.post('./backend/product-single.php', {id}, (response) => {
             // SE CONVIERTE A OBJETO EL JSON OBTENIDO
-            let product = JSON.parse(response);
+            let product = JSON.parse(response); // Esta es la única línea en donde sí usamos el JSON (obtenido del backend) porque es como lo envía el .php y de este se extraen los datos.
             // SE INSERTAN LOS DATOS ESPECIALES EN LOS CAMPOS CORRESPONDIENTES
             $('#name').val(product.nombre);
+            $('#price').val(product.precio);
+            $('#quantity').val(product.unidades);
+            $('#model').val(product.modelo);
+            
+            let marca = product.marca; // el valor de marca es el nombre de la marca, pero no coincide con los values que hay en el formulario, es por ello que se le asigna dependiendo del nombre de marca.
+            if(marca == 'Pluma Eterna')
+                marca = 'plumaEterna';
+            else if(marca == 'Luz y Tinta')
+                marca = 'luzTinta';
+            else if(marca == 'Vortice Literario') // Ã³ = ó. Esto podría ser una futura actualización debido a los caracteres como acentos y la ñ que no se imprimen en el resultado final.
+                marca = 'vorticeLiterario';
+            else if(marca == 'Alas de Papel')
+                marca = 'alasPapel';
+            else
+                marca = 'sombrasDestello';
+
+            $('#brand').val(marca);
+            $('#description').val(product.detalles);
+            $('#image').val(product.imagen);
             // EL ID SE INSERTA EN UN CAMPO OCULTO PARA USARLO DESPUÉS PARA LA ACTUALIZACIÓN
             $('#productId').val(product.id);
             // SE ELIMINA nombre, eliminado E id PARA PODER MOSTRAR EL JSON EN EL <textarea>
-            delete(product.nombre);
-            delete(product.eliminado);
-            delete(product.id);
+//            delete(product.nombre); No hacen faltan más estas 3 líneas porque no se imprimirá después un JSON, sino que se agregan los valores a los campos en el formulario.
+//            delete(product.eliminado);
+//            delete(product.id);
             // SE CONVIERTE EL OBJETO JSON EN STRING
-            let JsonString = JSON.stringify(product,null,2);
+//            let JsonString = JSON.stringify(product,null,2); No más JSON. Grrr
             // SE MUESTRA STRING EN EL <textarea>
-            $('#description').val(JsonString);
-            
+//            $('#description').val(JsonString); No JSON.
+
             // SE PONE LA BANDERA DE EDICIÓN EN true
             edit = true;
         });
         e.preventDefault();
+        $('button.btn-primary').text("Modificar Producto");
     });    
 });

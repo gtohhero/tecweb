@@ -3,7 +3,7 @@
         'localhost',
         'root',
         '12345678a',
-        'marketzone'
+        'bookstore'
     );
 
     /**
