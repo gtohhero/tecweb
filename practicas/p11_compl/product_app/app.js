@@ -119,6 +119,7 @@ $(document).ready(function(){
     });
 
     $('#product-form').submit(e => {
+        $('button.btn-primary').text("Agregar Producto");
         e.preventDefault();
 
         // SE CONVIERTE EL JSON DE STRING A OBJETO
