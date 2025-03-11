@@ -170,6 +170,7 @@ $(document).ready(function(){
     });
 
     $(document).on('click', '.product-item', (e) => {
+        $('button.btn-primary').text("Modificar Producto");
         const element = $(this)[0].activeElement.parentElement.parentElement;
         const id = $(element).attr('productId');
         $.post('./backend/product-single.php', {id}, (response) => {
