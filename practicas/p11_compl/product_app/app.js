@@ -1,6 +1,7 @@
 $(document).ready(function () {
     let edit = false;
     let nombreRepetido = true;
+    let mensajesErrores = [];
 
     function reiniciarValores() { // Más adelante será muy necesario reiniciar los campos.
         $('#name').val('');
@@ -119,43 +120,168 @@ $(document).ready(function () {
     });
 
     $('#name').keyup(function () {
-        if ($('#name').val().trim() !== '') {
-            let name = $('#name').val();
-            $.ajax({
-                url: './backend/product-validateName.php',
-                type: 'POST',
-                data: { name },
-                success: function (response) {
-                    let respuesta = JSON.parse(response);
-                    let template_bar = '';
-                    if(respuesta.status === "success") {
-                        nombreRepetido=false;
-                    }
-                    else {
-                        nombreRepetido=true;
-                    }
+        let name = $('#name').val().trim();
+        let template_bar = '';
+        $.ajax({
+            url: './backend/product-validateName.php',
+            type: 'POST',
+            data: { name },
+            success: function (response) {
+                let respuesta = JSON.parse(response);
+                if (respuesta.status === "success") { 
+                    nombreRepetido = false; // esta valor será de ayuda en las validaciones como una condición más para el nombre.
+                }
+                else {
+                    nombreRepetido = true;
+                }
 
-                    template_bar += `
+                template_bar += `
                                 <li style="list-style: none;">status: ${respuesta.status}</li>
                                 <li style="list-style: none;">message: ${respuesta.message}</li>
                             `;
 
-                    $('#product-result').show();
-                    $('#container').html(template_bar);
-                }
-            });
+                $('#product-result').show();
+                $('#container').html(template_bar);
+            }
+        });
+    });
+
+    function validarNombre() {
+        let valor = $('#name').val().trim();
+        let mensaje = '';
+        if (valor === "" || nombreRepetido || valor.length > 100) {
+            mensaje='Nombre del producto no es válido, supera el límite de caracteres o ya está en uso.';
+            mostrarError(mensaje); // Muestra el error individualmente.
+            mensajesErrores.push(mensaje); // Inserta el mensaje de error a un arreglo y se muestra una vez se pulse el botón de agregar/modificar.
         }
         else {
             $('#product-result').hide();
-            nombreRepetido=true;
         }
-    });
+    }
+    $('#name').blur(validarNombre); // Permite que cada vez que se abandone el campo, llame la función de validación y esta valida automáticamente.
+
+    function validarPrecio() {
+        let valor = $('#price').val();
+        let mensaje = '';
+        if (!valor || isNaN(valor) || !/^\d+(\.\d{1,2})?$/.test(valor) || parseFloat(valor) <= 99.99) {
+            mensaje='Precio es vacío, no supera los 99.99 en valor o tiene más de dos decimales.';
+            mostrarError(mensaje);
+            mensajesErrores.push(mensaje);
+        }
+        else {
+            $('#product-result').hide();
+        }
+    }
+    $('#price').blur(validarPrecio);
+
+    function validarCantidad() {
+        let valor = $('#quantity').val();
+        let mensaje = '';
+        if (!valor || isNaN(valor) || Number(valor) < 0) {
+            mensaje='Cantidad es vacía o es menor a 0.';
+            mostrarError(mensaje);
+            mensajesErrores.push(mensaje);
+        }
+        else {
+            $('#product-result').hide();
+        }
+    }
+    $('#quantity').blur(validarCantidad);
+
+    function validarModelo() {
+        let valor = $('#model').val().trim();
+        let mensaje = '';
+        if (valor === "XX-000" || valor.length > 25 || !/^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9\sáéíóúÁÉÍÓÚüÜñÑ-]+$/.test(valor)) {
+            mensaje='Modelo supera el límite de caracteres, es vacío o no es un texto alfanumérico.';
+            mostrarError(mensaje);
+            mensajesErrores.push(mensaje);
+        }
+        else {
+            $('#product-result').hide();
+        }
+    }
+    $('#model').blur(validarModelo);
+
+    function validarMarca() {
+        let valor = $('#brand option:selected').text();
+        let mensaje = '';
+        if (valor === "NA") {
+            mensaje='Marca no fue seleccionada.';
+            mostrarError(mensaje);
+            mensajesErrores.push(mensaje);
+        }
+        else {
+            $('#product-result').hide();
+        }
+    }
+    $('#brand').blur(validarMarca);
+
+    function validarDetalles() {
+        let valor = $('#description').val().trim();
+        let mensaje = '';
+        if (valor.length > 250) {
+            mensaje='Los detalles superan el límite permitido de caracteres.';
+            mostrarError(mensaje);
+            mensajesErrores.push(mensaje);
+        }
+        else {
+            $('#product-result').hide();
+        }
+    }
+    $('#description').blur(validarDetalles);
+
+    function validarImagen() {
+        let valor = $('#image').val().trim();
+        if (valor === "") {
+            $('#image').val("img/default.png");
+        }
+    }
+    $('#image').blur(validarImagen);
+
+    function mostrarError(mensaje) {
+        let template_bar = '';
+        template_bar += `
+                <li style="list-style: none;">
+                    <span style="color: #B1A293; font-weight: bold;">Error:</span> ${mensaje}
+                </li>
+            `; // Recibe de parámetro el mensaje de error, dependiendo de qué función de validación hace uso de esta.
+        $('#product-result').show();
+        $('#container').html(template_bar);
+    }
 
     $('#product-form').submit(e => { // esto es equivalente al form.addEventListener("submit", function(event) {...} de la práctica 9
         e.preventDefault();
 
         // SE CONVIERTE EL JSON DE STRING A OBJETO
         //        let postData = JSON.parse( $('#description').val() ); No hay más JSON, por ende, esta línea queda inválida.
+        /**
+         * AQUÍ DEBES AGREGAR LAS VALIDACIONES DE LOS DATOS EN EL OBJETO
+         * --> EN CASO DE NO HABER ERRORES, SE ENVIAR EL PRODUCTO A AGREGAR
+         **/
+        mensajesErrores = []; // La declaración se hace globalmente para que cada función pueda hacer push dentro de ellas.
+
+        validarNombre(); // Se llaman a todas las validaciones
+        validarPrecio();
+        validarCantidad();
+        validarModelo();
+        validarMarca();
+        validarDetalles();
+
+        if (mensajesErrores.length > 0) { // Si hay mensajes de error en el arreglo, cumple la condición y entra en el if.
+            let template_bar = '';
+            for (let i = 0; i < mensajesErrores.length; i++) {
+                template_bar += `
+                    <li style="list-style: none;">
+                        <span style="color: #B1A293; font-weight: bold;">Error:</span> ${mensajesErrores[i]}
+                    </li>
+                    `;
+            }
+            $('#product-result').show();
+            $('#container').html(template_bar);
+            return;
+        }
+        /**/
+
         const postData = { // Aún es necesario un objeto que contenga la información del formulario. :<
             nombre: $('#name').val().trim(),
             id: $('#productId').val(),
@@ -167,103 +293,31 @@ $(document).ready(function () {
             imagen: $('#image').val().trim()
         };
 
-        /**
-         * AQUÍ DEBES AGREGAR LAS VALIDACIONES DE LOS DATOS EN EL OBJETO
-         * --> EN CASO DE NO HABER ERRORES, SE ENVIAR EL PRODUCTO A AGREGAR
-         **/
-        let hayErrores = false;
-        let mensajesErrores = [];
+        $('button.btn-primary').text("Agregar Producto");
+        nombreRepetido = true;
+        const url = edit === false ? './backend/product-add.php' : './backend/product-edit.php';
 
-        if (postData.nombre === "" || postData.nombre.length > 100) {
-            mensajesErrores.push("Nombre supera el límite de caracteres o es vacío.");
-            hayErrores = true;
-        }
-
-        if (!postData.precio || isNaN(postData.precio) || !/^\d+(\.\d{1,2})?$/.test(postData.precio) || parseFloat(postData.precio) <= 99.99) {
-            mensajesErrores.push("Precio es vacío, no supera los 99.99 en valor o tiene más de dos decimales");
-            hayErrores = true;
-        }
-
-
-        if (!postData.unidades || isNaN(postData.unidades) || Number(postData.unidades) < 0) {
-            mensajesErrores.push("Cantidad es vacía o es menor a 0");
-            hayErrores = true;
-        }
-
-        if (postData.modelo === "XX-000" || postData.modelo.length > 25 || !/^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9\sáéíóúÁÉÍÓÚüÜñÑ-]+$/.test(postData.modelo)) {
-            mensajesErrores.push("Modelo supera el límite de caracteres, es vacío o no es un texto alfanumérico.");
-            hayErrores = true;
-        }
-
-        if (postData.marca === "NA") {
-            mensajesErrores.push("Marca no fue seleccionada.");
-            hayErrores = true;
-        }
-
-        if (postData.detalles !== "NA" && postData.detalles !== "") {
-            if (postData.detalles.length > 250) {
-                mensajesErrores.push("Los detalles superan el límite permitido de caracteres.");
-                hayErrores = true;
-            }
-        }
-        else {
-            postData.detalles = "";
-        }
-
-        if (postData.imagen === "") {
-            postData.imagen = "img/default.png";
-        }
-
-        if (hayErrores) {
+        $.post(url, postData, (response) => {
+            //console.log(response);
+            // SE OBTIENE EL OBJETO DE DATOS A PARTIR DE UN STRING JSON
+            let respuesta = JSON.parse(response);
+            // SE CREA UNA PLANTILLA PARA CREAR INFORMACIÓN DE LA BARRA DE ESTADO
             let template_bar = '';
-            for (let i = 0; i < mensajesErrores.length; i++) {
-                template_bar += `
-                <li style="list-style: none;">
-                    <span style="color: #B1A293; font-weight: bold;">Error:</span> ${mensajesErrores[i]}
-                </li>
-                `;
-            }
+            template_bar += `
+                            <li style="list-style: none;">status: ${respuesta.status}</li>
+                            <li style="list-style: none;">message: ${respuesta.message}</li>
+                        `;
+            // SE REINICIA EL FORMULARIO
+            reiniciarValores();
             // SE HACE VISIBLE LA BARRA DE ESTADO
             $('#product-result').show();
             // SE INSERTA LA PLANTILLA PARA LA BARRA DE ESTADO
             $('#container').html(template_bar);
-            return;
-        }
-        /**/
-
-        if(nombreRepetido===false) {
-            $('button.btn-primary').text("Agregar Producto");
-            nombreRepetido=true;
-            const url = edit === false ? './backend/product-add.php' : './backend/product-edit.php';
-
-            $.post(url, postData, (response) => {
-                //console.log(response);
-                // SE OBTIENE EL OBJETO DE DATOS A PARTIR DE UN STRING JSON
-                let respuesta = JSON.parse(response);
-                // SE CREA UNA PLANTILLA PARA CREAR INFORMACIÓN DE LA BARRA DE ESTADO
-                let template_bar = '';
-                template_bar += `
-                            <li style="list-style: none;">status: ${respuesta.status}</li>
-                            <li style="list-style: none;">message: ${respuesta.message}</li>
-                        `;
-                // SE REINICIA EL FORMULARIO
-                reiniciarValores();
-                // SE HACE VISIBLE LA BARRA DE ESTADO
-                $('#product-result').show();
-                // SE INSERTA LA PLANTILLA PARA LA BARRA DE ESTADO
-                $('#container').html(template_bar);
-                // SE LISTAN TODOS LOS PRODUCTOS
-                listarProductos();
-                // SE REGRESA LA BANDERA DE EDICIÓN A false
-                edit = false;
-            });
-        }
-        else {
-            $('#product-result').show();
-            $('#container').html('<li style="list-style: none;">El nombre del producto ya está en uso. Por favor, elige otro nombre.</li>');
+            // SE LISTAN TODOS LOS PRODUCTOS
             listarProductos();
-            return;
-        }
+            // SE REGRESA LA BANDERA DE EDICIÓN A false
+            edit = false;
+        });
     });
 
     $(document).on('click', '.product-delete', (e) => {
