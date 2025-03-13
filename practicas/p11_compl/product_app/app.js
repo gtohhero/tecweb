@@ -169,7 +169,7 @@ $(document).ready(function () {
             mensajesErrores.push(mensaje);
         }
         else {
-            $('#product-result').hide();
+            mostrarExito(valor+'] cumple con el precio');
         }
     }
     $('#price').blur(validarPrecio);
@@ -183,7 +183,7 @@ $(document).ready(function () {
             mensajesErrores.push(mensaje);
         }
         else {
-            $('#product-result').hide();
+            mostrarExito(valor+'] cumple con la cantidad');
         }
     }
     $('#quantity').blur(validarCantidad);
@@ -197,7 +197,7 @@ $(document).ready(function () {
             mensajesErrores.push(mensaje);
         }
         else {
-            $('#product-result').hide();
+            mostrarExito(valor+'] cumple con el modelo');
         }
     }
     $('#model').blur(validarModelo);
@@ -211,7 +211,7 @@ $(document).ready(function () {
             mensajesErrores.push(mensaje);
         }
         else {
-            $('#product-result').hide();
+            mostrarExito(valor+'] cumple con la marca');
         }
     }
     $('#brand').blur(validarMarca);
@@ -225,7 +225,7 @@ $(document).ready(function () {
             mensajesErrores.push(mensaje);
         }
         else {
-            $('#product-result').hide();
+            mostrarExito(valor+'] cumple con la descripción');
         }
     }
     $('#description').blur(validarDetalles);
@@ -235,6 +235,7 @@ $(document).ready(function () {
         if (valor === "") {
             $('#image').val("img/default.png");
         }
+        mostrarExito(valor+'] cumple con la imagen');
     }
     $('#image').blur(validarImagen);
 
@@ -245,6 +246,17 @@ $(document).ready(function () {
                     <span style="color: #B1A293; font-weight: bold;">Error:</span> ${mensaje}
                 </li>
             `; // Recibe de parámetro el mensaje de error, dependiendo de qué función de validación hace uso de esta.
+        $('#product-result').show();
+        $('#container').html(template_bar);
+    }
+
+    function mostrarExito(mensaje) {
+        let template_bar = '';
+        template_bar += `
+                <li style="list-style: none;">
+                    El valor insertado [${mensaje}
+                </li>
+            `; // Recibe de parámetro el nombre del campo, dependiendo de qué función de validación hace uso de esta.
         $('#product-result').show();
         $('#container').html(template_bar);
     }
