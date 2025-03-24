@@ -1,4 +1,8 @@
 <?php
+    require_once __DIR__.'/Cabecera.php';
+    require_once __DIR__.'/Cuerpo.php';
+    require_once __DIR__.'/Pie.php';
+
     class Pagina {
         private $cabecera;
         private $cuerpo;
