@@ -11,8 +11,26 @@
             $this->data = array();
             parent::__construct($db, $user, $pass);
         }
-        public function add($Object) {
 
+        public function add($Object) {
+            $this->data = array(
+                'status'  => 'error',
+                'message' => 'Producto no agregado'
+            );
+            if(isset($Object['nombre'])) {
+                $jsonOBJ = json_decode( json_encode($Object) );
+                
+                $this->conexion->set_charset("utf8");
+                $sql = "INSERT INTO productos VALUES (null, '{$jsonOBJ->nombre}', '{$jsonOBJ->marca}', '{$jsonOBJ->modelo}', {$jsonOBJ->precio}, '{$jsonOBJ->detalles}', {$jsonOBJ->unidades}, '{$jsonOBJ->imagen}', 0)";
+                if($this->conexion->query($sql)){
+                    $this->data['status'] =  "success";
+                    $this->data['message'] =  "Producto agregado";
+                } else {
+                    $this->data['message'] = "ERROR: No se ejecuto $sql. " . mysqli_error($this->conexion);
+                }
+
+                $this->conexion->close();
+            }
         }
 
         public function delete($id) {
@@ -33,7 +51,24 @@
         }
 
         public function edit($Object) {
-
+            $this->data = array(
+                'status'  => 'error',
+                'message' => 'La consulta falló'
+            );
+            if( isset($Object['id']) ) {
+                $jsonOBJ = json_decode( json_encode($Object) );
+                $sql =  "UPDATE productos SET nombre='{$jsonOBJ->nombre}', marca='{$jsonOBJ->marca}',";
+                $sql .= "modelo='{$jsonOBJ->modelo}', precio={$jsonOBJ->precio}, detalles='{$jsonOBJ->detalles}',"; 
+                $sql .= "unidades={$jsonOBJ->unidades}, imagen='{$jsonOBJ->imagen}' WHERE id={$jsonOBJ->id}";
+                $this->conexion->set_charset("utf8");
+                if ( $this->conexion->query($sql) ) {
+                    $this->data['status'] =  "success";
+                    $this->data['message'] =  "Producto actualizado";
+                } else {
+                    $this->data['message'] = "ERROR: No se ejecuto $sql. " . mysqli_error($this->conexion);
+                }
+                $this->conexion->close();
+            } 
         }
 
         public function list() {
@@ -60,7 +95,7 @@
                 if ( $result = $this->conexion->query($sql) ) {
                     $rows = $result->fetch_all(MYSQLI_ASSOC);
         
-                    if(!is_null($rows)) { //Aquí puede mejorar.
+                    if(!is_null($rows)) {
                         foreach($rows as $num => $row) {
                             foreach($row as $key => $value) {
                                 $this->data[$num][$key] = utf8_encode($value);
@@ -80,7 +115,7 @@
                 if ( $result = $this->conexion->query("SELECT * FROM productos WHERE id = {$id} AND eliminado = 0") ) {
                     $row = $result->fetch_assoc();
         
-                    if(!is_null($row)) { //Aquí puede mejorar.
+                    if(!is_null($row)) {
                         foreach($row as $key => $value) {
                             $this->data[$key] = utf8_encode($value);
                         }
@@ -99,7 +134,7 @@
                 if ( $result = $this->conexion->query($sql) ) {
                     $rows = $result->fetch_all(MYSQLI_ASSOC);
         
-                    if(!is_null($rows)) { //Aquí puede mejorar.
+                    if(!is_null($rows)) {
                         foreach($rows as $num => $row) {
                             foreach($row as $key => $value) {
                                 $this->data[$num][$key] = utf8_encode($value);

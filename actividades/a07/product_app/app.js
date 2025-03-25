@@ -22,12 +22,16 @@ $(document).ready(function () {
             url: './backend/product-list.php',
             type: 'GET',
             success: function (response) {
+                // SE OBTIENE EL OBJETO DE DATOS A PARTIR DE UN STRING JSON
                 const productos = JSON.parse(response);
 
+                // SE VERIFICA SI EL OBJETO JSON TIENE DATOS
                 if (Object.keys(productos).length > 0) {
+                    // SE CREA UNA PLANTILLA PARA CREAR LAS FILAS A INSERTAR EN EL DOCUMENTO HTML
                     let template = '';
 
                     productos.forEach(producto => {
+                        // SE CREA UNA LISTA HTML CON LA DESCRIPCIÓN DEL PRODUCTO
                         let descripcion = '';
                         descripcion += '<li>precio: ' + producto.precio + '</li>';
                         descripcion += '<li>unidades: ' + producto.unidades + '</li>';
@@ -48,6 +52,7 @@ $(document).ready(function () {
                             </tr>
                         `;
                     });
+                    // SE INSERTA LA PLANTILLA EN EL ELEMENTO CON ID "productos"
                     $('#products').html(template);
                 }
             }
@@ -332,7 +337,16 @@ $(document).ready(function () {
             const element = $(this)[0].activeElement.parentElement.parentElement;
             const id = $(element).attr('productId');
             $.post('./backend/product-delete.php', { id }, (response) => {
-                $('#product-result').hide();
+                let respuesta = JSON.parse(response);
+                let template_bar = '';
+                template_bar += `
+                    <li style="list-style: none;">status: ${respuesta.status}</li>
+                    <li style="list-style: none;">message: ${respuesta.message}</li>
+                `;
+                // SE HACE VISIBLE LA BARRA DE ESTADO
+                $('#product-result').addClass("card my-4 d-block");
+                // SE INSERTA LA PLANTILLA PARA LA BARRA DE ESTADO
+                $('#container').html(template_bar);
                 listarProductos();
             });
         }
