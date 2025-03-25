@@ -152,5 +152,24 @@
         public function getData() {
             return json_encode($this->data, JSON_PRETTY_PRINT);
         }
+
+        public function validateName($nombre) {
+            $this->data = array(
+                'status'  => 'error',
+                'message' => 'Ya existe un producto con ese nombre o es vacío'
+            );
+            if(isset($nombre) && $nombre!="") {
+                $sql = "SELECT * FROM productos WHERE nombre = '{$nombre}' AND eliminado = 0";
+                $result = $this->conexion->query($sql);
+                
+                if ($result->num_rows == 0) {
+                    $this->data['status'] = "success";
+                    $this->data['message'] = "Producto disponible [".$nombre."] para agregar/modificar.";
+                }
+        
+                $result->free();
+                $this->conexion->close();
+            }
+        }
     }
 ?>
