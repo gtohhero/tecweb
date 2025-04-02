@@ -1,5 +1,5 @@
 <?php
-    //namespace TECWEB\View;
+    namespace TECWEB\MYAPI\View;
 
     class ProductsView {
         private $consola;

@@ -1,7 +1,8 @@
 <?php
-    //namespace TECWEB\Controllers;
-    //use TECWEB\Model as Model;
-    //use TECWEB\View as View;
+    namespace TECWEB\MYAPI\Controller;
+
+    use TECWEB\MYAPI\Model\ProductsModel;
+    use TECWEB\MYAPI\View\ProductsView;
 
     require_once __DIR__ . '/../Model/ProductsModel.php';
     require_once __DIR__ . '/../View/ProductsView.php';

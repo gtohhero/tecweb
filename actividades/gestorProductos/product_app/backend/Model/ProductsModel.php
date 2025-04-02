@@ -1,7 +1,7 @@
 <?php
-    //namespace TECWEB\MYAPI;
-    
-    //use TECWEB\MYAPI\DataBase as DataBase;
+    namespace TECWEB\MYAPI\Model;
+    use TECWEB\MYAPI\DataBase;
+
     require_once __DIR__.'/DataBase.php';
 
     class ProductsModel extends DataBase {
