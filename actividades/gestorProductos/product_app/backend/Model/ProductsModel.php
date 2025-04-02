@@ -1,13 +1,13 @@
 <?php
-    namespace TECWEB\MYAPI;
+    //namespace TECWEB\MYAPI;
     
-    use TECWEB\MYAPI\DataBase as DataBase;
+    //use TECWEB\MYAPI\DataBase as DataBase;
     require_once __DIR__.'/DataBase.php';
 
     class ProductsModel extends DataBase {
         private $data = NULL;
 
-        public function __construct($db, $user='root', $pass='12345678a') {
+        public function __construct($db, $user, $pass) {
             $this->data = array();
             parent::__construct($db, $user, $pass);
         }
@@ -75,7 +75,7 @@
             if ( $result = $this->conexion->query("SELECT * FROM productos WHERE eliminado = 0") ) {
                 $rows = $result->fetch_all(MYSQLI_ASSOC);
         
-                if(!is_null($rows)) {
+                if(!empty($rows)) {
                     foreach($rows as $num => $row) {
                         foreach($row as $key => $value) {
                             $this->data[$num][$key] = utf8_encode($value);

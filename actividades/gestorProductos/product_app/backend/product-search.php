@@ -1,9 +1,12 @@
 <?php
-    use TECWEB\MYAPI\Products as Products;
-    require_once __DIR__.'/myapi/Products.php';
+    //use TECWEB\ProductsController as Controllers;
+    require_once __DIR__.'/Controller/ProductsController.php';
     
-    $prodObj = new Products('bookstore');
-    $prodObj->search($_GET['search']);
+    header('Content-Type: application/json');
 
-    echo $prodObj->getData();
+    $controller = new ProductsController('bookstore');
+    $controller->buscar($_GET['search']);
+    $vista = $controller->getData();
+ 
+    echo $vista;
 ?>

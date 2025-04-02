@@ -1,9 +1,12 @@
 <?php
-    use TECWEB\MYAPI\Products as Products;
-    require_once __DIR__.'/myapi/Products.php';
+    //use TECWEB\ProductsController as Controllers;
+    require_once __DIR__.'/Controller/ProductsController.php';
+    
+    header('Content-Type: application/json');
 
-    $prodObj = new Products('bookstore');
-    $prodObj->delete($_POST['id']);
-
-    echo $prodObj->getData();
+    $controller = new ProductsController('bookstore');
+    $controller->eliminar($_POST['id']);
+    $vista = $controller->getData();
+ 
+    echo $vista;
 ?>

@@ -3,9 +3,9 @@ $(document).ready(function () {
     let nombreRepetido = true;
     let mensajesErrores = [];
 
-    function reiniciarValores() { // Más adelante será muy necesario reiniciar los campos.
+    function reiniciarValores() {
         $('#name').val('');
-        $('#price').val('0.0'); // Este valor numérico pero lo dejó en un string por mera estética, al final, las verificaciones se encargan de no aceptar un valor así.
+        $('#price').val('0.0');
         $('#quantity').val(0);
         $('#model').val('XX-000');
         $('#description').val('NA');
@@ -21,40 +21,10 @@ $(document).ready(function () {
         $.ajax({
             url: './backend/product-list.php',
             type: 'GET',
+            dataType: 'json',
             success: function (response) {
-                // SE OBTIENE EL OBJETO DE DATOS A PARTIR DE UN STRING JSON
-                const productos = JSON.parse(response);
-
-                // SE VERIFICA SI EL OBJETO JSON TIENE DATOS
-                if (Object.keys(productos).length > 0) {
-                    // SE CREA UNA PLANTILLA PARA CREAR LAS FILAS A INSERTAR EN EL DOCUMENTO HTML
-                    let template = '';
-
-                    productos.forEach(producto => {
-                        // SE CREA UNA LISTA HTML CON LA DESCRIPCIÓN DEL PRODUCTO
-                        let descripcion = '';
-                        descripcion += '<li>precio: ' + producto.precio + '</li>';
-                        descripcion += '<li>unidades: ' + producto.unidades + '</li>';
-                        descripcion += '<li>modelo: ' + producto.modelo + '</li>';
-                        descripcion += '<li>marca: ' + producto.marca + '</li>';
-                        descripcion += '<li>detalles: ' + producto.detalles + '</li>';
-
-                        template += `
-                            <tr productId="${producto.id}">
-                                <td>${producto.id}</td>
-                                <td><a href="#" class="product-item">${producto.nombre}</a></td>
-                                <td><ul>${descripcion}</ul></td>
-                                <td>
-                                    <button class="product-delete btn btn-danger">
-                                        Eliminar
-                                    </button>
-                                </td>
-                            </tr>
-                        `;
-                    });
-                    // SE INSERTA LA PLANTILLA EN EL ELEMENTO CON ID "productos"
-                    $('#products').html(template);
-                }
+                console.log(response.mensaje)
+                $('#products').html(response.contenido);
             }
         });
     }
@@ -65,83 +35,41 @@ $(document).ready(function () {
             $.ajax({
                 url: './backend/product-search.php?search=' + $('#search').val(),
                 data: { search },
+                dataType: 'json',
                 type: 'GET',
                 success: function (response) {
-                    if (!response.error) {
-                        // SE OBTIENE EL OBJETO DE DATOS A PARTIR DE UN STRING JSON
-                        const productos = JSON.parse(response);
-
-                        // SE VERIFICA SI EL OBJETO JSON TIENE DATOS
-                        if (Object.keys(productos).length > 0) {
-                            // SE CREA UNA PLANTILLA PARA CREAR LAS FILAS A INSERTAR EN EL DOCUMENTO HTML
-                            let template = '';
-                            let template_bar = '';
-
-                            productos.forEach(producto => {
-                                // SE CREA UNA LISTA HTML CON LA DESCRIPCIÓN DEL PRODUCTO
-                                let descripcion = '';
-                                descripcion += '<li>precio: ' + producto.precio + '</li>';
-                                descripcion += '<li>unidades: ' + producto.unidades + '</li>';
-                                descripcion += '<li>modelo: ' + producto.modelo + '</li>';
-                                descripcion += '<li>marca: ' + producto.marca + '</li>';
-                                descripcion += '<li>detalles: ' + producto.detalles + '</li>';
-
-                                template += `
-                                    <tr productId="${producto.id}">
-                                        <td>${producto.id}</td>
-                                        <td><a href="#" class="product-item">${producto.nombre}</a></td>
-                                        <td><ul>${descripcion}</ul></td>
-                                        <td>
-                                            <button class="product-delete btn btn-danger">
-                                                Eliminar
-                                            </button>
-                                        </td>
-                                    </tr>
-                                `;
-
-                                template_bar += `
-                                    <li>${producto.nombre}</il>
-                                `;
-                            });
-                            // SE HACE VISIBLE LA BARRA DE ESTADO
-                            $('#product-result').show();
-                            // SE INSERTA LA PLANTILLA PARA LA BARRA DE ESTADO
-                            $('#container').html(template_bar);
-                            // SE INSERTA LA PLANTILLA EN EL ELEMENTO CON ID "productos"
-                            $('#products').html(template);
-                        }
-                    }
+                    console.log(response.mensaje)
+                    $('#product-result').show();
+                    $('#container').html(response.estado);
+                    $('#products').html(response.contenido);
                 }
             });
         }
         else {
             $('#product-result').hide();
+            listarProductos();
         }
     });
 
     $('#name').keyup(function () {
         let name = $('#name').val().trim();
-        let template_bar = '';
         $.ajax({
             url: './backend/product-validateName.php',
+            dataType: 'json',
             type: 'POST',
             data: { name },
             success: function (response) {
-                let respuesta = JSON.parse(response);
-                if (respuesta.status === "success") { 
-                    nombreRepetido = false; // esta valor será de ayuda en las validaciones como una condición más para el nombre.
+                if (response.status === "success") { 
+                    nombreRepetido = false;
                 }
                 else {
                     nombreRepetido = true;
                 }
 
-                template_bar += `
-                                <li style="list-style: none;">status: ${respuesta.status}</li>
-                                <li style="list-style: none;">message: ${respuesta.message}</li>
-                            `;
-
                 $('#product-result').show();
-                $('#container').html(template_bar);
+                $('#container').html(response.contenido);
+
+                console.log(response.message)
             }
         });
     });
@@ -151,14 +79,14 @@ $(document).ready(function () {
         let mensaje = '';
         if (valor === "" || nombreRepetido || valor.length > 100) {
             mensaje='Nombre del producto no es válido, supera el límite de caracteres o ya está en uso.';
-            mostrarError(mensaje); // Muestra el error individualmente.
-            mensajesErrores.push(mensaje); // Inserta el mensaje de error a un arreglo y se muestra una vez se pulse el botón de agregar/modificar.
+            mostrarError(mensaje);
+            mensajesErrores.push(mensaje);
         }
         else {
             $('#product-result').hide();
         }
     }
-    $('#name').blur(validarNombre); // Permite que cada vez que se abandone el campo, llame la función de validación y esta valida automáticamente.
+    $('#name').blur(validarNombre);
 
     function validarPrecio() {
         let valor = $('#price').val();
@@ -239,13 +167,13 @@ $(document).ready(function () {
     }
     $('#image').blur(validarImagen);
 
-    function mostrarError(mensaje) {
+    function mostrarError(mensaje) { // Estas son las validaciones. Forman parte del cliente.
         let template_bar = '';
         template_bar += `
                 <li style="list-style: none;">
                     <span style="color: #B1A293; font-weight: bold;">Error:</span> ${mensaje}
                 </li>
-            `; // Recibe de parámetro el mensaje de error, dependiendo de qué función de validación hace uso de esta.
+            `;
         $('#product-result').show();
         $('#container').html(template_bar);
     }
@@ -256,30 +184,24 @@ $(document).ready(function () {
                 <li style="list-style: none;">
                     El valor insertado [${mensaje}
                 </li>
-            `; // Recibe de parámetro el nombre del campo, dependiendo de qué función de validación hace uso de esta.
+            `;
         $('#product-result').show();
         $('#container').html(template_bar);
     }
 
-    $('#product-form').submit(e => { // esto es equivalente al form.addEventListener("submit", function(event) {...} de la práctica 9
+    $('#product-form').submit(e => {
         e.preventDefault();
 
-        // SE CONVIERTE EL JSON DE STRING A OBJETO
-        //        let postData = JSON.parse( $('#description').val() ); No hay más JSON, por ende, esta línea queda inválida.
-        /**
-         * AQUÍ DEBES AGREGAR LAS VALIDACIONES DE LOS DATOS EN EL OBJETO
-         * --> EN CASO DE NO HABER ERRORES, SE ENVIAR EL PRODUCTO A AGREGAR
-         **/
-        mensajesErrores = []; // La declaración se hace globalmente para que cada función pueda hacer push dentro de ellas.
+        mensajesErrores = [];
 
-        validarNombre(); // Se llaman a todas las validaciones
+        validarNombre();
         validarPrecio();
         validarCantidad();
         validarModelo();
         validarMarca();
         validarDetalles();
 
-        if (mensajesErrores.length > 0) { // Si hay mensajes de error en el arreglo, cumple la condición y entra en el if.
+        if (mensajesErrores.length > 0) {
             let template_bar = '';
             for (let i = 0; i < mensajesErrores.length; i++) {
                 template_bar += `
@@ -292,9 +214,8 @@ $(document).ready(function () {
             $('#container').html(template_bar);
             return;
         }
-        /**/
 
-        const postData = { // Aún es necesario un objeto que contenga la información del formulario. :<
+        const postData = {
             nombre: $('#name').val().trim(),
             id: $('#productId').val(),
             precio: $('#price').val(),
@@ -310,25 +231,12 @@ $(document).ready(function () {
         const url = edit === false ? './backend/product-add.php' : './backend/product-edit.php';
 
         $.post(url, postData, (response) => {
-            //console.log(response);
-            // SE OBTIENE EL OBJETO DE DATOS A PARTIR DE UN STRING JSON
-            let respuesta = JSON.parse(response);
-            // SE CREA UNA PLANTILLA PARA CREAR INFORMACIÓN DE LA BARRA DE ESTADO
-            let template_bar = '';
-            template_bar += `
-                            <li style="list-style: none;">status: ${respuesta.status}</li>
-                            <li style="list-style: none;">message: ${respuesta.message}</li>
-                        `;
-            // SE REINICIA EL FORMULARIO
             reiniciarValores();
-            // SE HACE VISIBLE LA BARRA DE ESTADO
             $('#product-result').show();
-            // SE INSERTA LA PLANTILLA PARA LA BARRA DE ESTADO
-            $('#container').html(template_bar);
-            // SE LISTAN TODOS LOS PRODUCTOS
+            $('#container').html(response.contenido);
             listarProductos();
-            // SE REGRESA LA BANDERA DE EDICIÓN A false
             edit = false;
+            console.log(response.message)
         });
     });
 
@@ -337,17 +245,10 @@ $(document).ready(function () {
             const element = $(this)[0].activeElement.parentElement.parentElement;
             const id = $(element).attr('productId');
             $.post('./backend/product-delete.php', { id }, (response) => {
-                let respuesta = JSON.parse(response);
-                let template_bar = '';
-                template_bar += `
-                    <li style="list-style: none;">status: ${respuesta.status}</li>
-                    <li style="list-style: none;">message: ${respuesta.message}</li>
-                `;
-                // SE HACE VISIBLE LA BARRA DE ESTADO
                 $('#product-result').addClass("card my-4 d-block");
-                // SE INSERTA LA PLANTILLA PARA LA BARRA DE ESTADO
-                $('#container').html(template_bar);
+                $('#container').html(response.contenido);
                 listarProductos();
+                console.log(response.message)
             });
         }
     });
@@ -356,20 +257,17 @@ $(document).ready(function () {
         const element = $(this)[0].activeElement.parentElement.parentElement;
         const id = $(element).attr('productId');
         $.post('./backend/product-single.php', { id }, (response) => {
-            // SE CONVIERTE A OBJETO EL JSON OBTENIDO
-            let product = JSON.parse(response); // Esta es la única línea en donde sí usamos el JSON (obtenido del backend) porque es como lo envía el .php y de este se extraen los datos.
-            // SE INSERTAN LOS DATOS ESPECIALES EN LOS CAMPOS CORRESPONDIENTES
-            $('#name').val(product.nombre);
-            $('#price').val(product.precio);
-            $('#quantity').val(product.unidades);
-            $('#model').val(product.modelo);
+            $('#name').val(response.nombre);
+            $('#price').val(response.precio);
+            $('#quantity').val(response.unidades);
+            $('#model').val(response.modelo);
 
-            let marca = product.marca; // el valor de marca es el nombre de la marca, pero no coincide con los values que hay en el formulario, es por ello que se le asigna dependiendo del nombre de marca.
+            let marca = response.marca;
             if (marca == 'Pluma Eterna')
                 marca = 'plumaEterna';
             else if (marca == 'Luz y Tinta')
                 marca = 'luzTinta';
-            else if (marca == 'Vortice Literario') // Ã³ = ó. Esto podría ser una futura actualización debido a los caracteres como acentos y la ñ que no se imprimen en el resultado final.
+            else if (marca == 'Vortice Literario')
                 marca = 'vorticeLiterario';
             else if (marca == 'Alas de Papel')
                 marca = 'alasPapel';
@@ -377,20 +275,9 @@ $(document).ready(function () {
                 marca = 'sombrasDestello';
 
             $('#brand').val(marca);
-            $('#description').val(product.detalles);
-            $('#image').val(product.imagen);
-            // EL ID SE INSERTA EN UN CAMPO OCULTO PARA USARLO DESPUÉS PARA LA ACTUALIZACIÓN
-            $('#productId').val(product.id);
-            // SE ELIMINA nombre, eliminado E id PARA PODER MOSTRAR EL JSON EN EL <textarea>
-            //            delete(product.nombre); No hacen faltan más estas 3 líneas porque no se imprimirá después un JSON, sino que se agregan los valores a los campos en el formulario.
-            //            delete(product.eliminado);
-            //            delete(product.id);
-            // SE CONVIERTE EL OBJETO JSON EN STRING
-            //            let JsonString = JSON.stringify(product,null,2); No más JSON. Grrr
-            // SE MUESTRA STRING EN EL <textarea>
-            //            $('#description').val(JsonString); No JSON.
-
-            // SE PONE LA BANDERA DE EDICIÓN EN true
+            $('#description').val(response.detalles);
+            $('#image').val(response.imagen);
+            $('#productId').val(response.id);
             edit = true;
         });
         e.preventDefault();
