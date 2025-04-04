@@ -24,6 +24,8 @@ class ComposerStaticInitf39cda57725ecb529b0c28d7ba88c30a
         'Backend\\MyApi\\Create\\Create' => __DIR__ . '/../..' . '/backend/myapi/Create/Create.php',
         'Backend\\MyApi\\DataBase' => __DIR__ . '/../..' . '/backend/myapi/DataBase.php',
         'Backend\\MyApi\\Delete\\Delete' => __DIR__ . '/../..' . '/backend/myapi/Delete/Delete.php',
+        'Backend\\MyApi\\Read\\Read' => __DIR__ . '/../..' . '/backend/myapi/Read/Read.php',
+        'Backend\\MyApi\\Update\\Update' => __DIR__ . '/../..' . '/backend/myapi/Update/Update.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
     );
 

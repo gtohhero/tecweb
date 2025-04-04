@@ -9,5 +9,7 @@ return array(
     'Backend\\MyApi\\Create\\Create' => $baseDir . '/backend/myapi/Create/Create.php',
     'Backend\\MyApi\\DataBase' => $baseDir . '/backend/myapi/DataBase.php',
     'Backend\\MyApi\\Delete\\Delete' => $baseDir . '/backend/myapi/Delete/Delete.php',
+    'Backend\\MyApi\\Read\\Read' => $baseDir . '/backend/myapi/Read/Read.php',
+    'Backend\\MyApi\\Update\\Update' => $baseDir . '/backend/myapi/Update/Update.php',
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
 );
