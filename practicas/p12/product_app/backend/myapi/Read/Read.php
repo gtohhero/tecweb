@@ -1,7 +1,5 @@
-<?php
-    //namespace TECWEB\MYAPI\READ;
-    //use TECWEB\MYAPI\DataBase as DataBase;
-    require_once __DIR__.'/../DataBase.php';
+<?php namespace Backend\MyApi\Read;
+    use Backend\MyApi\DataBase as DataBase;
 
     Class Read extends DataBase {
         public function __construct($db) {

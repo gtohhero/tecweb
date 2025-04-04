@@ -1,7 +1,5 @@
-<?php
-    //namespace TECWEB\MYAPI\UPDATE;
-    //use TECWEB\MYAPI\DataBase as DataBase;
-    require_once __DIR__.'/../DataBase.php';
+<?php namespace Backend\MyApi\Update;
+    use Backend\MyApi\DataBase as DataBase;
 
     Class Update extends DataBase {
         public function __construct($db) {
