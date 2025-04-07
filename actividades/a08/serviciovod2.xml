@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<CatalogoVOD>
+    <cuenta>
+        <correo email='bunchffriends@gang.com'/>
+        <perfiles>
+            <perfil usuario="John" idioma='Español'/>
+            <perfil usuario="Paul" idioma='Inglés'/>
+        </perfiles>
+    </cuenta>
+    <contenido>
+        <peliculas>
+            <genero nombre='Ciencia ficción'>
+                <titulo duracion='124 minutos'>
+                    <nombre>Star Wars: Episode V - The Empire Strikes Back</nombre>
+                </titulo>
+                <titulo duracion='136 minutos'>
+                    <nombre>The Matrix</nombre>
+                </titulo>
+                <titulo duracion='127 minutos'>
+                    <nombre>Jurassic Park</nombre>
+                </titulo>
+                <titulo duracion='107 minutos'>
+                    <nombre>The Terminator</nombre>
+                </titulo>
+            </genero>
+            <genero nombre='Thriller'>
+                <titulo duracion='170 minutos'>
+                    <nombre>Scarface</nombre>
+                </titulo>
+                <titulo duracion='101 minutos'>
+                    <nombre>American Psycho</nombre>
+                </titulo>
+                <titulo duracion='152 minutos'>
+                    <nombre>The Dark Knight</nombre>
+                </titulo>
+                <titulo duracion='101 minutos'>
+                    <nombre>John Wick</nombre>
+                </titulo>
+            </genero>
+        </peliculas>
+        <programas>
+            <genero nombre='Comedia'>
+                <titulo duracion='24 minutos'>
+                    <nombre>K-ON!</nombre>
+                </titulo>
+                <titulo duracion='24 minutos'>
+                    <nombre>Bocchi The Rock!</nombre>
+                </titulo>
+                <titulo duracion='24 minutos'>
+                    <nombre>Girls Band Cry</nombre>
+                </titulo>
+                <titulo duracion='24 minutos'>
+                    <nombre>Sound! Euphonium</nombre>
+                </titulo>
+            </genero>
+            <genero nombre='Drama'>
+                <titulo duracion='47 minutos'>
+                    <nombre>Breaking Bad</nombre>
+                </titulo>
+                <titulo duracion='55 minutos'>
+                    <nombre>The Sopranos</nombre>
+                </titulo>
+                <titulo duracion='44 minutos'>
+                    <nombre>House</nombre>
+                </titulo>
+                <titulo duracion='45 minutos'>
+                    <nombre>The Walking Dead</nombre>
+                </titulo>
+            </genero>
+        </programas>
+    </contenido>
+</CatalogoVOD>

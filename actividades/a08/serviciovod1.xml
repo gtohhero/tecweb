@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<CatalogoVOD>
+    <cuenta>
+        <correo>bunchffriends@gang.com</correo>
+        <perfiles>
+            <perfil>
+                <usuario>John</usuario>
+                <idioma>Español</idioma>
+            </perfil>
+            <perfil>
+                <usuario>Paul</usuario>
+                <idioma>Inglés</idioma>
+            </perfil>
+        </perfiles>
+    </cuenta>
+    <contenido>
+        <peliculas>
+            <genero>
+                <nombre>Ciencia ficción</nombre>
+                <titulo>
+                    <nombre>Star Wars: Episode V - The Empire Strikes Back</nombre>
+                    <duracion>124 minutos</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>The Matrix</nombre>
+                    <duracion>136 minutos</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>Jurassic Park</nombre>
+                    <duracion>127 minutos</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>The Terminator</nombre>
+                    <duracion>107 minutos</duracion>
+                </titulo>
+            </genero>
+            <genero>
+                <nombre>Thriller</nombre>
+                <titulo>
+                    <nombre>Scarface</nombre>
+                    <duracion>170 minutos</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>American Psycho</nombre>
+                    <duracion>101 minutos</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>The Dark Knight</nombre>
+                    <duracion>152 minutos</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>John Wick</nombre>
+                    <duracion>101 minutos</duracion>
+                </titulo>
+            </genero>
+        </peliculas>
+        <programas>
+            <genero>
+                <nombre>Comedia</nombre>
+                <titulo>
+                    <nombre>K-ON!</nombre>
+                    <duracion>24 minutos</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>Bocchi The Rock!</nombre>
+                    <duracion>24 minutos</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>Girls Band Cry</nombre>
+                    <duracion>24 minutos</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>Sound! Euphonium</nombre>
+                    <duracion>24 minutos</duracion>
+                </titulo>
+            </genero>
+            <genero>
+                <nombre>Drama</nombre>
+                <titulo>
+                    <nombre>Breaking Bad</nombre>
+                    <duracion>47 minutos</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>The Sopranos</nombre>
+                    <duracion>55 minutos</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>House</nombre>
+                    <duracion>44 minutos</duracion>
+                </titulo>
+                <titulo>
+                    <nombre>The Walking Dead</nombre>
+                    <duracion>45 minutos</duracion>
+                </titulo>
+            </genero>
+        </programas>
+    </contenido>
+</CatalogoVOD>
