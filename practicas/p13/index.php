@@ -27,5 +27,15 @@
         return $response;
     });
 
+    $app->get("/testjson", function($request, $response, $args) {
+        $data[0]["nombre"]="Francisco";
+        $data[0]["apellidos"]="Zatarain Amador";
+        $data[1]["nombre"]="Jose Efren";
+        $data[1]["apellidos"]="Sanchez Lopez";
+        $response->getBody()->write(json_encode($data, JSON_PRETTY_PRINT));
+
+        return $response;
+    });
+
     $app->run();
 ?>
