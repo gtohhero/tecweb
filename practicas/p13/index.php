@@ -27,11 +27,25 @@
         return $response;
     });
 
+    //VIDEO - GET
     $app->get("/testjson", function($request, $response, $args) {
         $data[0]["nombre"]="Francisco";
         $data[0]["apellidos"]="Zatarain Amador";
         $data[1]["nombre"]="Jose Efren";
         $data[1]["apellidos"]="Sanchez Lopez";
+        $response->getBody()->write(json_encode($data, JSON_PRETTY_PRINT));
+
+        return $response;
+    });
+
+    //EVIDENCIAS - POST
+    $app->post('/jsontest', function($request, $response, $args) {
+        $reqPost = $request->getParsedBody();
+
+        $data[0]["nombre"]=$reqPost["name1"];
+        $data[0]["apellidos"]=$reqPost["lstname1"];
+        $data[1]["nombre"]=$reqPost["name2"];
+        $data[1]["apellidos"]=$reqPost["lstname2"];
         $response->getBody()->write(json_encode($data, JSON_PRETTY_PRINT));
 
         return $response;
