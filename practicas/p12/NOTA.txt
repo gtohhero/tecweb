@@ -1,0 +1,4 @@
+OJO:
+A partir de esta práctica, empiezo a utilizar el proyecto adjunto de la práctica 12 "Gestión de dependencias propias con Composer" de aquí a futuras actividades y prácticas, porque es a este donde se le aplican las modificaciones según la lista de indicaciones en esta misma asignación.
+
+Por tanto, se deja a un lado el proyecto ya elaborado en el complemento 11.
