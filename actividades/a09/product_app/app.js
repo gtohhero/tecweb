@@ -18,12 +18,12 @@ $(document).ready(function(){
 
     function listarProductos() {
         $.ajax({
-            url: './backend/product-list.php',
+            url: "http://localhost/tecweb/actividades/a09/product_app/backend/products",
             type: 'GET',
             success: function(response) {
                 console.log(response);
                 // SE OBTIENE EL OBJETO DE DATOS A PARTIR DE UN STRING JSON
-                const productos = JSON.parse(response);
+                const productos = response; // Aquí se omite parse() porque automáticamente se ha convertido el JSON recibido a objeto.
             
                 // SE VERIFICA SI EL OBJETO JSON TIENE DATOS
                 if(Object.keys(productos).length > 0) {
@@ -63,13 +63,14 @@ $(document).ready(function(){
         if($('#search').val()) {
             let search = $('#search').val();
             $.ajax({
-                url: './backend/product-search.php?search='+$('#search').val(),
+                url: "http://localhost/tecweb/actividades/a09/product_app/backend/products/"+ encodeURIComponent(search),
                 data: {search},
-                type: 'GET',
+                method: 'GET',
                 success: function (response) {
+                    console.log(response);
                     if(!response.error) {
                         // SE OBTIENE EL OBJETO DE DATOS A PARTIR DE UN STRING JSON
-                        const productos = JSON.parse(response);
+                        const productos = response;
                         
                         // SE VERIFICA SI EL OBJETO JSON TIENE DATOS
                         if(Object.keys(productos).length > 0) {
@@ -128,34 +129,34 @@ $(document).ready(function(){
         postData['nombre'] = $('#name').val();
         postData['id'] = $('#productId').val();
 
-        /**
-         * AQUÍ DEBES AGREGAR LAS VALIDACIONES DE LOS DATOS EN EL JSON
-         * --> EN CASO DE NO HABER ERRORES, SE ENVIAR EL PRODUCTO A AGREGAR
-         **/
+        const method = edit ? 'PUT' : 'POST';
 
-        const url = edit === false ? './backend/product-add.php' : './backend/product-edit.php';
-        
-        $.post(url, postData, (response) => {
-            console.log(response);
-            // SE OBTIENE EL OBJETO DE DATOS A PARTIR DE UN STRING JSON
-            let respuesta = JSON.parse(response);
-            // SE CREA UNA PLANTILLA PARA CREAR INFORMACIÓN DE LA BARRA DE ESTADO
-            let template_bar = '';
-            template_bar += `
-                        <li style="list-style: none;">status: ${respuesta.status}</li>
-                        <li style="list-style: none;">message: ${respuesta.message}</li>
-                    `;
-            // SE REINICIA EL FORMULARIO
-            $('#name').val('');
-            $('#description').val(JsonString);
-            // SE HACE VISIBLE LA BARRA DE ESTADO
-            $('#product-result').show();
-            // SE INSERTA LA PLANTILLA PARA LA BARRA DE ESTADO
-            $('#container').html(template_bar);
-            // SE LISTAN TODOS LOS PRODUCTOS
-            listarProductos();
-            // SE REGRESA LA BANDERA DE EDICIÓN A false
-            edit = false;
+        $.ajax({
+            url: 'http://localhost/tecweb/actividades/a09/product_app/backend/product',
+            method: method,
+            data: JSON.stringify(postData),
+            success: function (response) {
+                console.log(response);
+                // SE OBTIENE EL OBJETO DE DATOS A PARTIR DE UN STRING JSON
+                let respuesta = response;
+                // SE CREA UNA PLANTILLA PARA CREAR INFORMACIÓN DE LA BARRA DE ESTADO
+                let template_bar = '';
+                template_bar += `
+                                <li style="list-style: none;">status: ${respuesta.status}</li>
+                                <li style="list-style: none;">message: ${respuesta.message}</li>
+                            `;
+                // SE REINICIA EL FORMULARIO
+                $('#name').val('');
+                $('#description').val(JsonString);
+                // SE HACE VISIBLE LA BARRA DE ESTADO
+                $('#product-result').show();
+                // SE INSERTA LA PLANTILLA PARA LA BARRA DE ESTADO
+                $('#container').html(template_bar);
+                // SE LISTAN TODOS LOS PRODUCTOS
+                listarProductos();
+                // SE REGRESA LA BANDERA DE EDICIÓN A false
+                edit = false;
+            }
         });
     });
 
@@ -163,9 +164,16 @@ $(document).ready(function(){
         if(confirm('¿Realmente deseas eliminar el producto?')) {
             const element = $(this)[0].activeElement.parentElement.parentElement;
             const id = $(element).attr('productId');
-            $.post('./backend/product-delete.php', {id}, (response) => {
-                $('#product-result').hide();
-                listarProductos();
+            
+            $.ajax({
+                url: 'http://localhost/tecweb/actividades/a09/product_app/backend/product',
+                method: 'DELETE',
+                data: JSON.stringify(id),
+                success: function(response) {
+                    console.log(response);
+                    $('#product-result').hide();
+                    listarProductos();
+                }
             });
         }
     });
@@ -173,25 +181,31 @@ $(document).ready(function(){
     $(document).on('click', '.product-item', (e) => {
         const element = $(this)[0].activeElement.parentElement.parentElement;
         const id = $(element).attr('productId');
-        $.post('./backend/product-single.php', {id}, (response) => {
-            // SE CONVIERTE A OBJETO EL JSON OBTENIDO
-            let product = JSON.parse(response);
-            // SE INSERTAN LOS DATOS ESPECIALES EN LOS CAMPOS CORRESPONDIENTES
-            $('#name').val(product.nombre);
-            // EL ID SE INSERTA EN UN CAMPO OCULTO PARA USARLO DESPUÉS PARA LA ACTUALIZACIÓN
-            $('#productId').val(product.id);
-            // SE ELIMINA nombre, eliminado E id PARA PODER MOSTRAR EL JSON EN EL <textarea>
-            delete(product.nombre);
-            delete(product.eliminado);
-            delete(product.id);
-            // SE CONVIERTE EL OBJETO JSON EN STRING
-            let JsonString = JSON.stringify(product,null,2);
-            // SE MUESTRA STRING EN EL <textarea>
-            $('#description').val(JsonString);
-            
-            // SE PONE LA BANDERA DE EDICIÓN EN true
-            edit = true;
+
+        $.ajax({
+            url: "http://localhost/tecweb/actividades/a09/product_app/backend/product/"+ encodeURIComponent(id),
+            type: 'GET',
+            success: function (response) {
+                console.log(response);
+                // SE CONVIERTE A OBJETO EL JSON OBTENIDO
+                let product = response;
+                // SE INSERTAN LOS DATOS ESPECIALES EN LOS CAMPOS CORRESPONDIENTES
+                $('#name').val(product.nombre);
+                // EL ID SE INSERTA EN UN CAMPO OCULTO PARA USARLO DESPUÉS PARA LA ACTUALIZACIÓN
+                $('#productId').val(product.id);
+                // SE ELIMINA nombre, eliminado E id PARA PODER MOSTRAR EL JSON EN EL <textarea>
+                delete(product.nombre);
+                delete(product.eliminado);
+                delete(product.id);
+                // SE CONVIERTE EL OBJETO JSON EN STRING
+                let JsonString = JSON.stringify(product,null,2);
+                // SE MUESTRA STRING EN EL <textarea>
+                $('#description').val(JsonString);
+                
+                // SE PONE LA BANDERA DE EDICIÓN EN true
+                edit = true;
+            }
         });
         e.preventDefault();
-    });    
+    }); 
 });
