@@ -1,5 +1,5 @@
-<?php namespace Backend\MyApi\Delete;
-    use Backend\MyApi\DataBase as DataBase;
+<?php namespace TecWeb\MyApi\Delete;
+    use TecWeb\MyApi\DataBase as DataBase;
 
     Class Delete extends DataBase {
         public function __construct($db) {

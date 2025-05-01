@@ -7,26 +7,26 @@ namespace Composer\Autoload;
 class ComposerStaticInitf39cda57725ecb529b0c28d7ba88c30a
 {
     public static $prefixLengthsPsr4 = array (
-        'B' => 
+        'T' => 
         array (
-            'Backend\\MyApi\\' => 14,
+            'TecWeb\\MyApi\\' => 13,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Backend\\MyApi\\' => 
+        'TecWeb\\MyApi\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/backend/myapi',
+            0 => __DIR__ . '/../..' . '/myapi',
         ),
     );
 
     public static $classMap = array (
-        'Backend\\MyApi\\Create\\Create' => __DIR__ . '/../..' . '/backend/myapi/Create/Create.php',
-        'Backend\\MyApi\\DataBase' => __DIR__ . '/../..' . '/backend/myapi/DataBase.php',
-        'Backend\\MyApi\\Delete\\Delete' => __DIR__ . '/../..' . '/backend/myapi/Delete/Delete.php',
-        'Backend\\MyApi\\Read\\Read' => __DIR__ . '/../..' . '/backend/myapi/Read/Read.php',
-        'Backend\\MyApi\\Update\\Update' => __DIR__ . '/../..' . '/backend/myapi/Update/Update.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'TecWeb\\MyApi\\Create\\Create' => __DIR__ . '/../..' . '/myapi/Create/Create.php',
+        'TecWeb\\MyApi\\DataBase' => __DIR__ . '/../..' . '/myapi/DataBase.php',
+        'TecWeb\\MyApi\\Delete\\Delete' => __DIR__ . '/../..' . '/myapi/Delete/Delete.php',
+        'TecWeb\\MyApi\\Read\\Read' => __DIR__ . '/../..' . '/myapi/Read/Read.php',
+        'TecWeb\\MyApi\\Update\\Update' => __DIR__ . '/../..' . '/myapi/Update/Update.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

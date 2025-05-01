@@ -1,5 +1,5 @@
-<?php namespace Backend\MyApi\Update;
-    use Backend\MyApi\DataBase as DataBase;
+<?php namespace TecWeb\MyApi\Update;
+    use TecWeb\MyApi\DataBase as DataBase;
 
     Class Update extends DataBase {
         public function __construct($db) {

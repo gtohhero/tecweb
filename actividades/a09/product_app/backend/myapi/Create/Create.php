@@ -1,5 +1,5 @@
-<?php namespace Backend\MyApi\Create;
-    use Backend\MyApi\DataBase as DataBase;
+<?php namespace TecWeb\MyApi\Create;
+    use TecWeb\MyApi\DataBase as DataBase;
 
     Class Create extends DataBase {
         public function __construct($db) {

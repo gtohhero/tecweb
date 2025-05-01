@@ -1,5 +1,5 @@
-<?php namespace Backend\MyApi\Read;
-    use Backend\MyApi\DataBase as DataBase;
+<?php namespace TecWeb\MyApi\Read;
+    use TecWeb\MyApi\DataBase as DataBase;
 
     Class Read extends DataBase {
         public function __construct($db) {
