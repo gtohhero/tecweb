@@ -6,10 +6,10 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Attribute' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
-    'TecWeb\\MyApi\\Create\\Create' => $baseDir . '/myapi/Create/Create.php',
-    'TecWeb\\MyApi\\DataBase' => $baseDir . '/myapi/DataBase.php',
-    'TecWeb\\MyApi\\Delete\\Delete' => $baseDir . '/myapi/Delete/Delete.php',
-    'TecWeb\\MyApi\\Read\\Read' => $baseDir . '/myapi/Read/Read.php',
-    'TecWeb\\MyApi\\Update\\Update' => $baseDir . '/myapi/Update/Update.php',
+    'PhpToken' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
+    'Stringable' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
+    'UnhandledMatchError' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
+    'ValueError' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
 );
